@@ -24,7 +24,6 @@ public class MouseOverEmpty : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (canPlace);
 
 		if (Input.GetMouseButtonDown (0) && canPlace == true) {
 			//Debug.Log ("Pressed left click.");
@@ -63,8 +62,11 @@ public class MouseOverEmpty : MonoBehaviour {
 			wallCube = getWallScript.prefabCube[1];
 		}
 
+		if (gameObject.name == "EmptyGate") {
+			wallCube = getWallScript.prefabCube[2];
+		}
+
 		Instantiate (wallCube, transform.position, Quaternion.identity);
-		Debug.Log ("Tried instantiating");
 		Destroy (gameObject);
 	}
 
