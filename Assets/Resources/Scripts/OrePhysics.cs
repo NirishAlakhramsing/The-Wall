@@ -2,40 +2,38 @@
 using System.Collections;
 
 public class OrePhysics : MonoBehaviour {
-	public int speed;
-	private float rndNumber;
+	private float speed;
+	private float rndNumber, xNbr, yNbr, zNbr;
 	private Vector3 objectPos;
+	private Rigidbody rb;
+
 
 	// Use this for initialization
 	void Start () {
-		rndNumber = Random.Range (1f, 1f);
 
+		rb = GetComponent<Rigidbody>();
+		speed = 100f;
 
-		/*float tempX, tempY, tempZ = 0;
-		tempX = transform.localPosition.x;
-		tempX += rndNumber;
+		for (int i = 0; i < 3; i++) {
+			rndNumber = Random.Range (-0.75f, 0.75f);
 
+			if ( i == 0){
+				xNbr = rndNumber;
+			}
 
-		tempY = transform.localPosition.y;
-		tempY += rndNumber;
+			if (i == 2) {
+				zNbr = rndNumber;
+			}
+		}
 
-		tempZ = transform.localPosition.z;
-		tempZ += rndNumber;
-*/
-		objectPos = new Vector3 (rndNumber,rndNumber,rndNumber);
-		Rigidbody.position = objectPos;
-	/*
-		transform.position = objectPos;
-	*/
-		gameObject.transform.position = new Vector3 (rndNumber, rndNumber, rndNumber);
-		transform.Translate(Vector3.up * speed * Time.deltaTime);
-		transform.Translate(Vector3.forward * speed * Time.deltaTime);
-		transform.Translate(Vector3.left * speed * Time.deltaTime);
-
+		objectPos = new Vector3 (xNbr, 1f , zNbr);
+		transform.position = transform.position + objectPos;
+		rb.AddForce(objectPos * speed);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+
 	}
 }

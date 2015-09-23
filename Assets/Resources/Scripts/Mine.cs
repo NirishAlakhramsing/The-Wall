@@ -11,8 +11,6 @@ public class Mine : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		oreChunk = oreTypes[0];
-
-		Debug.Log (oreChunk);
 		canMine = false;
 	}
 	
@@ -22,7 +20,6 @@ public class Mine : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0) && canMine == true) {
 			transform.localScale -=  new Vector3(0.1f, 0.1f, 0.1f);
 			CreateOreChunks();
-
 		}
 	}
 
