@@ -4,10 +4,15 @@ using System.Collections;
 public class Mine : MonoBehaviour {
 
 	private bool canMine;
+	private GameObject oreChunk;
+
+	public GameObject[] oreTypes;
 
 	// Use this for initialization
 	void Start () {
-	
+		oreChunk = oreTypes[0];
+
+		Debug.Log (oreChunk);
 		canMine = false;
 	}
 	
@@ -16,8 +21,9 @@ public class Mine : MonoBehaviour {
 	
 		if (Input.GetMouseButtonDown(0) && canMine == true) {
 			transform.localScale -=  new Vector3(0.1f, 0.1f, 0.1f);
-		}
+			CreateOreChunks();
 
+		}
 	}
 
 	void OnMouseEnter() {
@@ -26,5 +32,9 @@ public class Mine : MonoBehaviour {
 
 	void OnMouseExit() {
 		canMine = false;
+	}
+
+	public void CreateOreChunks(){
+		Instantiate (oreChunk, transform.position, Quaternion.identity);
 	}
 }
