@@ -3,8 +3,10 @@ using System.Collections;
 
 public class Mine : MonoBehaviour {
 
+	private int miningTimes, miningCount;
 	private bool canMine;
 	private GameObject oreChunk;
+
 
 	public GameObject[] oreTypes;
 
@@ -12,6 +14,7 @@ public class Mine : MonoBehaviour {
 	void Start () {
 		oreChunk = oreTypes[0];
 		canMine = false;
+		miningTimes = (int)Random.Range (5, 10);
 	}
 	
 	// Update is called once per frame
@@ -20,11 +23,17 @@ public class Mine : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0) && canMine == true) {
 			transform.localScale -=  new Vector3(0.1f, 0.1f, 0.1f);
 			CreateOreChunks();
+			miningCount++;
+		}
+
+		if (miningCount == miningTimes) {
+			Destroy(gameObject);
 		}
 	}
 
 	void OnMouseEnter() {
 		canMine = true;
+
 	}
 
 	void OnMouseExit() {
@@ -32,6 +41,7 @@ public class Mine : MonoBehaviour {
 	}
 
 	public void CreateOreChunks(){
+
 		Instantiate (oreChunk, transform.position, Quaternion.identity);
 	}
 }
