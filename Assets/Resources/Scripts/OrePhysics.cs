@@ -4,12 +4,13 @@ using System.Collections;
 public class OrePhysics : MonoBehaviour {
 	private float speed;
 	private float rndNumber, xNbr, yNbr, zNbr;
+	private bool canCollect;
 	private Vector3 objectPos;
 	private Rigidbody rb;
 
-
-	// Use this for initialization
+	// Sends the chunks flying off different directions.
 	void Start () {
+		canCollect = false;
 
 		rb = GetComponent<Rigidbody>();
 		speed = 100f;
@@ -31,9 +32,27 @@ public class OrePhysics : MonoBehaviour {
 		rb.AddForce(objectPos * speed);
 	}
 	
-	// Update is called once per frame
-	void Update () {
 
+	void FixedUpdate () {
 
+		//spins the ore chunks in the air.
+		if (transform.position.y > 1f){
+			transform.Rotate (15f, 0, 15f);
+		} else {
+		}
+
+		if (Input.GetMouseButtonDown(0) && canCollect == true) {
+
+			Destroy(gameObject);
+		}
+	}
+
+	void OnMouseEnter() {
+		canCollect = true;
+		
+	}
+	
+	void OnMouseExit() {
+		canCollect = false;
 	}
 }
