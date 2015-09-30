@@ -8,6 +8,16 @@ public class OrePhysics : MonoBehaviour {
 	private Vector3 objectPos;
 	private Rigidbody rb;
 
+
+	public GameObject addOre;
+	UIManagerScript uiscript;
+	
+	
+	void Awake(){
+		addOre = GameObject.Find("UIManager");
+		uiscript = addOre.GetComponent<UIManagerScript> ();
+	}
+
 	// Sends the chunks flying off different directions.
 	void Start () {
 		canCollect = false;
@@ -44,6 +54,9 @@ public class OrePhysics : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0) && canCollect == true) {
 
 			Destroy(gameObject);
+
+			uiscript.oreAmount++ ;
+			uiscript.CurrentOreCount();
 		}
 	}
 

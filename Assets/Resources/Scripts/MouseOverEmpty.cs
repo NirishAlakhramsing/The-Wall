@@ -2,17 +2,28 @@
 using System.Collections;
 
 public class MouseOverEmpty : MonoBehaviour {
-	public Renderer rend;
+	private Renderer rend;
 
 	private bool canPlace;
-
+	public bool blockT1, blockT2, gateT1;
 	private WallCreation getWallScript;
 
-	private GameObject wallCube;
-	
+	public GameObject wallCube;
+
+	public GameObject addOre;
+	UIManagerScript uiscript;
 
 	// Use this for initialization
 	void Start () {
+
+
+		//blockT1 = false;
+		blockT2 = false;
+		gateT1 = false;
+
+		addOre = GameObject.Find("UIManager");
+		uiscript = addOre.GetComponent<UIManagerScript> ();
+
 		getWallScript = GameObject.Find("WallCreationManager").GetComponent<WallCreation>();
 
 		rend = GetComponent<Renderer>();
@@ -24,6 +35,8 @@ public class MouseOverEmpty : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		Debug.Log (blockT1);
 
 		if (Input.GetMouseButtonDown (0) && canPlace == true) {
 			//Debug.Log ("Pressed left click.");
@@ -54,21 +67,30 @@ public class MouseOverEmpty : MonoBehaviour {
 	// Puts the a wall part on its right location
 	public void CreateObj (){
 
-		if (gameObject.name == "EmptyLocation") {
+		if ((gameObject.name == "EmptyLocation") && (getWallScript.blockT1 == true)) {
 			wallCube = getWallScript.prefabCube[0];
+			uiscript.brickAmount -= 5;
+			Instantiate (wallCube, transform.position, Quaternion.identity);
+			Destroy (gameObject);
 		}
 
-		if (gameObject.name == "EmptyLocation2") {
+		if ((gameObject.name == "EmptyLocation2") && (getWallScript.blockT2 == true)) {
 			wallCube = getWallScript.prefabCube[1];
+			uiscript.brickAmount -= 10;
+			Instantiate (wallCube, transform.position, Quaternion.identity);
+			Destroy (gameObject);
 		}
 
-		if (gameObject.name == "EmptyGate") {
+		if ((gameObject.name == "EmptyGate") && (getWallScript.gateT1 == true)) {
 			wallCube = getWallScript.prefabCube[2];
+			uiscript.brickAmount -= 15;
+			Instantiate (wallCube, transform.position, Quaternion.identity);
+			Destroy (gameObject);
 		}
 
-		Instantiate (wallCube, transform.position, Quaternion.identity);
-		Destroy (gameObject);
+
 	}
+
 
 
 }

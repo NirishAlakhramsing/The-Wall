@@ -7,6 +7,15 @@ public class FurnaceScript : MonoBehaviour {
 	public GameObject meltingChunk;
 	private Vector3 oreFallpos;
 
+	public GameObject addOre;
+	UIManagerScript uiscript;
+	
+	
+	void Awake(){
+		addOre = GameObject.Find("UIManager");
+		uiscript = addOre.GetComponent<UIManagerScript> ();
+	}
+
 	// Use this for initialization
 	void Start () {
 		canMelt = false;
@@ -20,7 +29,7 @@ public class FurnaceScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (canMelt) {
+		if (canMelt && uiscript.oreAmount > 0) {
 			UseOre();
 		}
 	}
@@ -37,6 +46,15 @@ public class FurnaceScript : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown(0) && canMelt == true) {
 			Instantiate (meltingChunk, oreFallpos, Quaternion.identity);
+
+			uiscript.oreAmount-- ;
+			uiscript.CurrentOreCount();
 		}
+	}
+
+	void MeltingToBrick(){
+
+
+
 	}
 }

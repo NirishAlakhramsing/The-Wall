@@ -8,10 +8,15 @@ public class Mine : MonoBehaviour {
 	private GameObject oreChunk;
 
 
+
 	public GameObject[] oreTypes;
+
+
 
 	// Use this for initialization
 	void Start () {
+		miningCount = 0;
+
 		oreChunk = oreTypes[0];
 		canMine = false;
 		miningTimes = (int)Random.Range (5, 10);
@@ -43,5 +48,6 @@ public class Mine : MonoBehaviour {
 	public void CreateOreChunks(){
 
 		Instantiate (oreChunk, transform.position, Quaternion.identity);
+
 	}
 }
