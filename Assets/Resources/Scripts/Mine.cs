@@ -11,7 +11,8 @@ public class Mine : MonoBehaviour {
 
 	public GameObject[] oreTypes;
 
-
+	public GameObject countVein;
+	OreVeinManagerScript orescript;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,9 @@ public class Mine : MonoBehaviour {
 		oreChunk = oreTypes[0];
 		canMine = false;
 		miningTimes = (int)Random.Range (5, 10);
+
+		countVein = GameObject.Find ("OreVeinManager");
+		orescript = countVein.GetComponent<OreVeinManagerScript> ();
 	}
 	
 	// Update is called once per frame
@@ -32,8 +36,14 @@ public class Mine : MonoBehaviour {
 		}
 
 		if (miningCount == miningTimes) {
+
+			//orescript.maxVeins--;
+			orescript.veinCount--;
+			//orescript.startSpawning = true;
 			Destroy(gameObject);
 		}
+
+
 	}
 
 	void OnMouseEnter() {

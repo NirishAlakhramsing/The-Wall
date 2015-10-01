@@ -4,20 +4,19 @@ using System.Collections;
 public class OreVeinManagerScript : MonoBehaviour {
 
 	public GameObject vein;
-	public bool startSpawning;
+	public bool startSpawning, endSpawning;
 	private Vector3 veinProximityMin, veinProximityMax, randSpawnPosition;
 	private float rndXposition, rndZposition;
-	private int maxVeins, veinCount;
+	public int maxVeins;
+	public int veinCount;
 
 	// Use this for initialization
 	void Start () {
-		startSpawning = false;
+		startSpawning = true;
+		endSpawning = false;
+		//maxVeins = 1;
 
 		randSpawnPosition = transform.position;
-
-		maxVeins = 5;
-
-		//StartCoroutine (SpawnVein());
 
 		veinProximityMin = new Vector3(-4f, 0.0f, -21);
 		veinProximityMax = new Vector3 (2f, 0.0f, 0f);
@@ -26,12 +25,22 @@ public class OreVeinManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+			/*
 		if (startSpawning) {
+			StartCoroutine(SpawnVein());
+			startSpawning = false;
+		} */
+
+		if (startSpawning && (veinCount != maxVeins)) {
 			StartCoroutine(SpawnVein());
 			startSpawning = false;
 		}
 
+
+		if (veinCount == 0 && endSpawning) {
+			startSpawning = true;
+			endSpawning = false;
+		}
 	}
 
 	IEnumerator SpawnVein(){
@@ -41,8 +50,12 @@ public class OreVeinManagerScript : MonoBehaviour {
 		Instantiate (vein, GetPosition(randSpawnPosition), Quaternion.identity);
 		veinCount++;
 
+
 		if (veinCount != maxVeins) {
 			StartCoroutine (SpawnVein ());
+		} else {
+			startSpawning =false;
+			endSpawning = true;
 		}
 	}
 	

@@ -11,6 +11,7 @@ public class OrePhysics : MonoBehaviour {
 
 	public GameObject addOre;
 	UIManagerScript uiscript;
+
 	
 	
 	void Awake(){

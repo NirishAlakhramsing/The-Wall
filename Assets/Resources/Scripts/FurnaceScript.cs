@@ -6,7 +6,7 @@ public class FurnaceScript : MonoBehaviour {
 	private bool canMelt;
 	public GameObject meltingChunk;
 	private Vector3 oreFallpos;
-
+	private int chunksInserted;
 	public GameObject addOre;
 	UIManagerScript uiscript;
 	
@@ -18,19 +18,25 @@ public class FurnaceScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		chunksInserted = 0;
+
 		canMelt = false;
 		oreFallpos.y = gameObject.transform.position.y + 2.5f;
 		oreFallpos.x = gameObject.transform.position.x;
 		oreFallpos.z = gameObject.transform.position.z;
 
 		oreFallpos = new Vector3(oreFallpos.x, oreFallpos.y, oreFallpos.z);
-		Debug.Log (oreFallpos);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (canMelt && uiscript.oreAmount > 0) {
 			UseOre();
+		}
+
+		if (chunksInserted == 5) {
+			StartCoroutine(MeltingToBrick());
 		}
 	}
 
@@ -49,12 +55,19 @@ public class FurnaceScript : MonoBehaviour {
 
 			uiscript.oreAmount-- ;
 			uiscript.CurrentOreCount();
+
+			chunksInserted++;
 		}
 	}
 
-	void MeltingToBrick(){
+	IEnumerator MeltingToBrick(){
 
 
+		chunksInserted = 0;
+		yield return new WaitForSeconds(5);
+
+		uiscript.brickAmount += Random.Range (1, 5);
+		uiscript.CurrentOreCount ();
 
 	}
 }

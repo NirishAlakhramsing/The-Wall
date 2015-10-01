@@ -70,27 +70,32 @@ public class MouseOverEmpty : MonoBehaviour {
 		if ((gameObject.name == "EmptyLocation") && (getWallScript.blockT1 == true)) {
 			wallCube = getWallScript.prefabCube[0];
 			uiscript.brickAmount -= 5;
-			Instantiate (wallCube, transform.position, Quaternion.identity);
-			Destroy (gameObject);
+			MakeObj();
+			RemoveObj();
 		}
 
 		if ((gameObject.name == "EmptyLocation2") && (getWallScript.blockT2 == true)) {
 			wallCube = getWallScript.prefabCube[1];
 			uiscript.brickAmount -= 10;
-			Instantiate (wallCube, transform.position, Quaternion.identity);
-			Destroy (gameObject);
+			MakeObj();
+			RemoveObj();
 		}
 
 		if ((gameObject.name == "EmptyGate") && (getWallScript.gateT1 == true)) {
 			wallCube = getWallScript.prefabCube[2];
 			uiscript.brickAmount -= 15;
-			Instantiate (wallCube, transform.position, Quaternion.identity);
-			Destroy (gameObject);
+			MakeObj();
+			RemoveObj();
 		}
-
-
 	}
 
+	public void MakeObj(){
+		Instantiate (wallCube, transform.position, Quaternion.identity);
+	}
 
-
+	public void RemoveObj(){
+		Destroy (gameObject);
+		uiscript.CurrentOreCount ();
+	}
+	
 }
