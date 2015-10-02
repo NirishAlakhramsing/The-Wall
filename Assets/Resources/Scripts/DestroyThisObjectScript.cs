@@ -17,9 +17,13 @@ public class DestroyThisObjectScript : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter (){
+	void OnCollisionEnter (Collision coll){
 
 		Destroy (gameObject);
+
+		if (coll.gameObject.tag == "Wallpart") {
+			Destroy (gameObject);
+		}
 
 	}
 

@@ -8,7 +8,6 @@ public class Mine : MonoBehaviour {
 	private GameObject oreChunk;
 
 
-
 	public GameObject[] oreTypes;
 
 	public GameObject countVein;
@@ -59,5 +58,9 @@ public class Mine : MonoBehaviour {
 
 		Instantiate (oreChunk, transform.position, Quaternion.identity);
 
+	}
+
+	public void CreateBrickChunks(Vector3 getOther){
+		Instantiate (oreChunk, getOther, Quaternion.identity);
 	}
 }
