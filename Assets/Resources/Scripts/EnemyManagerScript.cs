@@ -3,18 +3,23 @@ using System.Collections;
 
 public class EnemyManagerScript : MonoBehaviour {
 
-	private int Wave, spawnTime;
+	private int wave, spawnTime, total;
 	public bool startWave;
 	private Vector3 enemyProximityMin, enemyProximityMax, randSpawnPosition;
 	private float rndXposition, rndZposition;
 	public GameObject enemyPrefab;
+	private UIManagerScript uiscript;
 
 
 	// Use this for initialization
 	void Start () {
-		Wave = 4;
+		uiscript = GameObject.Find ("UIManager").GetComponent<UIManagerScript> ();
+
+		wave = 4;
 		startWave = true;
 		spawnTime = 5;
+
+		total = wave * spawnTime;
 
 		randSpawnPosition = transform.position;
 		
@@ -25,10 +30,12 @@ public class EnemyManagerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		if (total == 0) {
+			uiscript.endText.text = uiscript.win;
+			uiscript.endText.color = Color.cyan;
+		}
 
-
-
-		if (startWave && (Wave > 0)) {
+		if (startWave && (wave > 0)) {
 			StartCoroutine(SpawnWave());
 			startWave= false;
 		}
@@ -41,9 +48,10 @@ public class EnemyManagerScript : MonoBehaviour {
 			Instantiate (enemyPrefab, GetPosition(randSpawnPosition), Quaternion.identity);
 		}
 
-		Wave--;
+		wave--;
 		spawnTime--;
 		startWave = true;
+		total--;
 	}
 
 

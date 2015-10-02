@@ -4,7 +4,7 @@ using System.Collections;
 public class MouseOverEmpty : MonoBehaviour {
 	private Renderer rend;
 
-	private bool canPlace;
+	private bool canPlace, canRepair;
 	public bool blockT1, blockT2, gateT1;
 	private WallCreation getWallScript;
 
@@ -17,7 +17,7 @@ public class MouseOverEmpty : MonoBehaviour {
 	void Start () {
 
 
-		//blockT1 = false;
+		canRepair = false;
 		blockT2 = false;
 		gateT1 = false;
 
@@ -51,17 +51,20 @@ public class MouseOverEmpty : MonoBehaviour {
 		if (Input.GetMouseButtonDown (2)) {
 			//Debug.Log("Pressed middle click.");
 		}
+
 	}
 
 	//Lights up a build location on the wall and prevents multiple instances.
 	void OnMouseEnter() {
 		rend.enabled = true;
 		canPlace = true;
+
 	}
 
 	void OnMouseExit() {
 		rend.enabled = false;
 		canPlace = false;
+
 	}
 
 	// Puts the a wall part on its right location
