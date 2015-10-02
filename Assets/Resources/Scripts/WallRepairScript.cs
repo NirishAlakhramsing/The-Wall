@@ -19,6 +19,14 @@ public class WallRepairScript : MonoBehaviour {
 			uiscript.wallAmount ++;
 			uiscript.brickAmount --;
 		}
+
+		
+		if (Input.GetMouseButtonDown (0) && uiscript.brickAmount <1) {
+			uiscript.callBrickText();
+		}
+
+
+
 	}
 	
 	void OnMouseEnter() {

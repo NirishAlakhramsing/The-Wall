@@ -38,6 +38,11 @@ public class FurnaceScript : MonoBehaviour {
 		if (chunksInserted == 5) {
 			StartCoroutine(MeltingToBrick());
 		}
+
+		if (Input.GetMouseButtonDown(0) && uiscript.oreAmount <= 0 && canMelt) {
+			uiscript.callOreText();
+		}
+
 	}
 
 	void OnMouseEnter() {
@@ -58,6 +63,8 @@ public class FurnaceScript : MonoBehaviour {
 
 			chunksInserted++;
 		}
+
+
 	}
 
 	IEnumerator MeltingToBrick(){

@@ -36,7 +36,6 @@ public class MouseOverEmpty : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Debug.Log (blockT1);
 
 		if (Input.GetMouseButtonDown (0) && canPlace == true) {
 			//Debug.Log ("Pressed left click.");

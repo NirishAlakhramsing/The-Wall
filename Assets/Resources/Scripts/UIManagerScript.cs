@@ -8,8 +8,11 @@ public class UIManagerScript : MonoBehaviour {
 	public Text brickText;
 	public Text wallText;
 	public Text endText;
+	public Text introText;
+	public Text neOreText;
+	public Text neBricksText;
 
-	public string ore, brick, wall, win, lose;
+	public string ore, brick, wall, win, lose, intro, neOre, neBricks;
 	public int oreAmount, brickAmount, wallAmount;
 	public GameObject UICanvas;
 
@@ -21,11 +24,17 @@ public class UIManagerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		introText.enabled = true;
 		endText.enabled = false;
+		neOreText.enabled = false;
+		neBricksText.enabled = false;
 		brickAmount = 55;
 		oreAmount = 0;
 		wallAmount = 100;
 
+		intro =  "Build and Defend your wall!!!";
+		neOre = "Not enough ore";
+		neBricks = "Not enough bricks";
 		wall = "Wall = ";
 		ore = "Ores * ";
 		brick = "Bricks * ";
@@ -37,11 +46,14 @@ public class UIManagerScript : MonoBehaviour {
 		oreText.text = ore + oreAmount.ToString() ;
 		brickText.text = brick + brickAmount.ToString ();
 		wallText.text = wall + wallAmount.ToString ()+ "% ";
-		
+
+		StartCoroutine (StartInfo());
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+
 
 		if (wallAmount <= 0) {
 			endText.enabled= true;
@@ -62,5 +74,30 @@ public class UIManagerScript : MonoBehaviour {
 		oreText.text = ore + oreAmount.ToString ();
 		brickText.text = brick + brickAmount.ToString ();
 		wallText.text = wall + wallAmount.ToString ();
+	}
+
+	IEnumerator StartInfo(){
+		yield return new WaitForSeconds (3);
+		introText.enabled = false;
+	}
+
+	public void callOreText(){
+		StartCoroutine (NotEnoughOre());
+	}
+
+	public void callBrickText(){
+		StartCoroutine (NotEnougBricks());
+	}
+
+	IEnumerator NotEnoughOre(){
+		neOreText.enabled = true;
+		yield return new WaitForSeconds (2);
+		neOreText.enabled = false;
+	}
+
+	IEnumerator NotEnougBricks(){
+		neBricksText.enabled = true;
+		yield return new WaitForSeconds (2);
+		neBricksText.enabled = false;
 	}
 }
