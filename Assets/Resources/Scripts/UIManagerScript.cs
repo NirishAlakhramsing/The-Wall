@@ -34,7 +34,7 @@ public class UIManagerScript : MonoBehaviour {
 
 		intro =  "Build and Defend your wall!!!";
 		neOre = "Not enough ore";
-		neBricks = "Not enough bricks";
+		neBricks = "";// Not enough bricks
 		wall = "Wall = ";
 		ore = "Ores * ";
 		brick = "Bricks * ";

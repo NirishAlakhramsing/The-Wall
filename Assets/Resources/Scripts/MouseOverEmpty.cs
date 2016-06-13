@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MouseOverEmpty : MonoBehaviour {
 	private Renderer rend;
-
+	private Color startcolor;
 	private bool canPlace, canRepair;
 	public bool blockT1, blockT2, gateT1;
 	private WallCreation getWallScript;
@@ -15,8 +15,7 @@ public class MouseOverEmpty : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-
+		
 		canRepair = false;
 		blockT2 = false;
 		gateT1 = false;
@@ -27,16 +26,15 @@ public class MouseOverEmpty : MonoBehaviour {
 		getWallScript = GameObject.Find("WallCreationManager").GetComponent<WallCreation>();
 
 		rend = GetComponent<Renderer>();
-
 		rend.enabled = false;
+
 		canPlace = false;
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-
+		
 		if (Input.GetMouseButtonDown (0) && canPlace == true) {
 			//Debug.Log ("Pressed left click.");
 			CreateObj ();
@@ -56,12 +54,15 @@ public class MouseOverEmpty : MonoBehaviour {
 	//Lights up a build location on the wall and prevents multiple instances.
 	void OnMouseEnter() {
 		rend.enabled = true;
+		//startcolor = rend.material.color;
+		//rend.material.color = Color.green;
 		canPlace = true;
 
 	}
 
 	void OnMouseExit() {
 		rend.enabled = false;
+		//rend.material.color = startcolor;
 		canPlace = false;
 
 	}

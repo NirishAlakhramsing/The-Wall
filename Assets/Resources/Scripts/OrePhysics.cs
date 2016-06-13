@@ -8,12 +8,9 @@ public class OrePhysics : MonoBehaviour {
 	private Vector3 objectPos;
 	private Rigidbody rb;
 
-
 	public GameObject addOre;
 	UIManagerScript uiscript;
 
-	
-	
 	void Awake(){
 		addOre = GameObject.Find("UIManager");
 		uiscript = addOre.GetComponent<UIManagerScript> ();
@@ -54,19 +51,20 @@ public class OrePhysics : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown(0) && canCollect == true) {
 
-			Destroy(gameObject);
-
 			uiscript.oreAmount++ ;
 			uiscript.CurrentOreCount();
+
+			Destroy(gameObject);
 		}
 	}
 
 	void OnMouseEnter() {
 		canCollect = true;
-		
 	}
 	
 	void OnMouseExit() {
 		canCollect = false;
 	}
+
+
 }
