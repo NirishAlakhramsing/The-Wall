@@ -9,7 +9,7 @@ public class CamereMovement : MonoBehaviour {
 		oldPosition = gameObject.transform.position;
 		front = new Vector3 (-34, 12, -10);
 		backrot = new Vector3 (-90, -30, 0);
-		frontrot = new Vector3 ( 90, -45,0 );
+		frontrot = new Vector3 ( 90, -45, 0);
 		Quaternion rotation = Quaternion.LookRotation (backrot);
 		transform.rotation = rotation;
 	}
