@@ -13,6 +13,7 @@ public class GhostFreeRoamCamera : MonoBehaviour
     public KeyCode backwardButton = KeyCode.S;
     public KeyCode rightButton = KeyCode.D;
     public KeyCode leftButton = KeyCode.A;
+    public KeyCode upwardsButton = KeyCode.Space;
 
     public float cursorSensitivity = 0.025f;
     public bool cursorToggleAllowed = true;
@@ -47,6 +48,7 @@ public class GhostFreeRoamCamera : MonoBehaviour
             CheckMove(backwardButton, ref deltaPosition, -transform.forward);
             CheckMove(rightButton, ref deltaPosition, transform.right);
             CheckMove(leftButton, ref deltaPosition, -transform.right);
+            CheckMove(upwardsButton, ref deltaPosition, transform.up);
 
             if (moving)
             {
@@ -63,7 +65,12 @@ public class GhostFreeRoamCamera : MonoBehaviour
             Vector3 eulerAngles = transform.eulerAngles;
             eulerAngles.x += -Input.GetAxis("Mouse Y") * 359f * cursorSensitivity;
             eulerAngles.y += Input.GetAxis("Mouse X") * 359f * cursorSensitivity;
-            transform.eulerAngles = eulerAngles;
+            //transform.eulerAngles = eulerAngles;
+
+            if (eulerAngles.x < 89 || eulerAngles.x > 271)
+            {
+                transform.eulerAngles = eulerAngles;
+            }
         }
 
         if (cursorToggleAllowed)
