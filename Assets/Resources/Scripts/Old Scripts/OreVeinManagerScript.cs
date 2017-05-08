@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class OreVeinManagerScript : MonoBehaviour {
 
 	public GameObject vein;
-	public bool startSpawning, endSpawning;
+    public List<GameObject> orevein;
+    public GameObject[] oremeshes;
+
+    public bool startSpawning, endSpawning;
 	private Vector3 veinProximityMin, veinProximityMax, randSpawnPosition;
 	private float rndXposition, rndZposition;
 	public int maxVeins;
@@ -12,6 +16,7 @@ public class OreVeinManagerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //oremeshes = new GameObject[10];
 		startSpawning = true;
 		endSpawning = false;
 		//maxVeins = 1;
