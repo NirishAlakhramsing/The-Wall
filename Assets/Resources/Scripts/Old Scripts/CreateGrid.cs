@@ -10,7 +10,7 @@ public class CreateGrid : MonoBehaviour {
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				GameObject plane;
-				plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+				plane = GameObject.CreatePrimitive(PrimitiveType.Quad);
 				plane.transform.position = new Vector3(+i*10,this.transform.position.y,j*10);
 				plane.name = "cell" + i + j;
 			}
