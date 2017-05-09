@@ -21,6 +21,12 @@ public class Grid : MonoBehaviour
         GenerateGrid();
     }
 
+    public void NewGeneration()
+    {
+        tempRandom();
+        GenerateGrid();
+    }
+
     void tempRandom()
     {
         for (int i = 0; i < generatedGrid.GetLength(0); i++)
@@ -35,11 +41,14 @@ public class Grid : MonoBehaviour
         {
             for (int j = 0; j < boardArray.GetLength(1); j++)
             {
-                boardArray[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                boardArray[i, j].transform.position = new Vector3(i * tileSize, this.transform.position.y, j * tileSize);
-                //boardArray[i, j] = Instantiate(tile, new Vector3(j * tileSize, 0, i * tileSize), Quaternion.identity) as GameObject;
-                boardArray[i, j].name = "cell" + i + j;
-                boardArray[i, j].transform.parent = this.transform;
+                if (boardArray[i, j] == null)
+                {
+                    boardArray[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                    boardArray[i, j].transform.position = new Vector3(i * tileSize, this.transform.position.y, j * tileSize);
+                    //boardArray[i, j] = Instantiate(tile, new Vector3(j * tileSize, 0, i * tileSize), Quaternion.identity) as GameObject;
+                    boardArray[i, j].name = "cell" + i + j;
+                    boardArray[i, j].transform.parent = this.transform;
+                }
 
                 rend = boardArray[i, j].GetComponent<Renderer>();
 
