@@ -6,11 +6,11 @@ using System.Collections;
 public class Converter : MonoBehaviour {
 
     //Grid data from the generatorscript
-    private GameObject[] generatorDataObj;
+    private GameObject[] groundLayer;
     private int arraySize = 16; //This data needs to be fetched from the future script which generates the data.
 
     //Grid data in scene
-    public int xSize, ySize;
+    public int xCollum, zRow;
     private Vector3[] cell;
     public float waitTime;
 
@@ -30,7 +30,7 @@ public class Converter : MonoBehaviour {
 
         for (int i = 0; i < arraySize; i++)
         {
-
+            //Add generation data into the GameObject several layer array
 
         }
 
@@ -50,10 +50,10 @@ public class Converter : MonoBehaviour {
 
         Debug.Log("Creating grid size");
         
-        cell = new Vector3[(xSize +1 ) * (ySize + 1)];
-        for (int i = 0, y = 0; y <= ySize; y++)
+        cell = new Vector3[(xCollum + 1) * (zRow +1)];
+        for (int i = 0, y = 0; y <= zRow; y++)
         {
-            for (int x = 0; x <= xSize; x++, i++)
+            for (int x = 0; x <= xCollum; x++, i++)
             {
                 cell[i] = new Vector3(gameObject.transform.position.x +(x * 1.5f), 0, gameObject.transform.position.z + (y * 1.5f));
                 yield return wait;
