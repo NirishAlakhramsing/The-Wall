@@ -17,7 +17,7 @@ public class Selector : MonoBehaviour {
     void Start () {
 	    selector = GameObject.CreatePrimitive(PrimitiveType.Plane);
         rend = selector.GetComponent<Renderer>();
-        rend.material = selectMatEmpty;
+        rend.material = swapSelectorColor(-1);
         selector.transform.parent = transform;
     }
 
@@ -35,6 +35,18 @@ public class Selector : MonoBehaviour {
             if (hitInfo.transform.gameObject.tag == "cell")
             {
                 isVisible = true;
+                selector.transform.localScale = new Vector3(1, 1, 1);
+                selector.transform.localPosition = new Vector3(0, 0, 0);
+                rend.material = swapSelectorColor(0);
+
+                transform.position = new Vector3(hitInfo.transform.position.x, 50, hitInfo.transform.position.z);
+            }
+            else if (hitInfo.transform.gameObject.tag == "altGrid")
+            {
+                isVisible = true;
+                selector.transform.localScale = new Vector3(3.7f, 1, 3.7f);
+                selector.transform.localPosition = new Vector3(15, 0, 15);
+                rend.material = swapSelectorColor(-1);
 
                 transform.position = new Vector3(hitInfo.transform.position.x, 50, hitInfo.transform.position.z);
             }
@@ -42,22 +54,26 @@ public class Selector : MonoBehaviour {
         else
             isVisible = false;
     }
-    public void swapSelectorColor(int color)
+    private Material swapSelectorColor(int color)
     {
+        Material mat;
+
         switch (color)
         {
             case 0:
-                rend.material = selectMatWater;
+                mat = selectMatWater;
                 break;
             case 1:
-                rend.material = selectMatGrass;
+                mat = selectMatGrass;
                 break;
             case 2:
-                rend.material = selectMatTrees;
+                mat = selectMatTrees;
                 break;
             default:
-                rend.material = selectMatEmpty;
+                mat = selectMatEmpty;
                 break;
         }
+
+        return mat;
     }
 }

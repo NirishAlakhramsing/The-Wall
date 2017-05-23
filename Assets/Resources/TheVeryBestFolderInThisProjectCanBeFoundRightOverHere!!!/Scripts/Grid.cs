@@ -17,7 +17,7 @@ public class Grid : MonoBehaviour
 
     Renderer rend;
 
-    int[,] generatedGrid = new int[tileNumber, tileNumber];
+    public int[,] generatedGrid = new int[tileNumber, tileNumber];
     GameObject[,] boardArray = new GameObject[tileNumber, tileNumber];
 
     //public GameObject tile;
