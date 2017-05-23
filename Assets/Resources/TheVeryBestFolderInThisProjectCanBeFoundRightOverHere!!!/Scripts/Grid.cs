@@ -6,6 +6,15 @@ public class Grid : MonoBehaviour
     public int tileSize = 10;
     public const int tileNumber = 16;
 
+    public Material water;
+    public Material grass;
+    public Material trees;
+    public Material empty;
+    /*public Texture water;
+    public Texture grass;
+    public Texture trees;
+    public Texture empty;*/
+
     Renderer rend;
 
     int[,] generatedGrid = new int[tileNumber, tileNumber];
@@ -16,7 +25,25 @@ public class Grid : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        newGeneration();
+        emptyField();
+    }
+
+    public void emptyField()
+    {
+        foreach (Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < generatedGrid.GetLength(0); i++)
+        {
+            for (int j = 0; j < generatedGrid.GetLength(0); j++)
+            {
+                generatedGrid[i, j] = -1;
+            }
+        }
+
+        boardArray = generateGrid(tileSize, generatedGrid, transform);
     }
 
     public void newGeneration()
@@ -52,6 +79,7 @@ public class Grid : MonoBehaviour
                 grid[i, j].transform.position = parent.position + new Vector3(i * size, this.transform.position.y, j * size);
                 //boardArray[i, j] = Instantiate(tile, new Vector3(j * tileSize, 0, i * tileSize), Quaternion.identity) as GameObject;
                 grid[i, j].name = "cell" + i + j;
+                grid[i, j].tag = "cell";
                 grid[i, j].transform.parent = parent;
                 grid[i, j].transform.localScale = new Vector3(0.1f * size, 1, 0.1f * size);
 
@@ -60,16 +88,16 @@ public class Grid : MonoBehaviour
                 switch (genGrid[i, j])
                 {
                     case 0:
-                        rend.material.SetColor("_Color", Color.black);
+                        rend.material = water;
                         break;
                     case 1:
-                        rend.material.SetColor("_Color", Color.blue);
+                        rend.material = grass;
                         break;
                     case 2:
-                        rend.material.SetColor("_Color", Color.green);
+                        rend.material = trees;
                         break;
                     default:
-                        rend.material.SetColor("_Color", Color.gray);
+                        rend.material = empty;
                         break;
                 }
             }
