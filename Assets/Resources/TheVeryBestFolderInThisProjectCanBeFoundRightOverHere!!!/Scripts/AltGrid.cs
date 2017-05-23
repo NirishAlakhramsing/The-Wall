@@ -38,6 +38,11 @@ public class AltGrid : MonoBehaviour {
     {
         var grid = gridObject.GetComponent<Grid>();
 
+        foreach (Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
         for (int i = 0; i < ArrayParent.Length; i++)
         {
             ArrayParent[i] = new GameObject();
