@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Selector : MonoBehaviour {
     
-  /*  public Material selectMat;
+    public Material selectMat;
 
     GameObject selector;
     Renderer rend;
@@ -39,5 +39,5 @@ public class Selector : MonoBehaviour {
 
             isVisible = false;
         }
-     */
+    }
 }
