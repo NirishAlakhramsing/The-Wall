@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class Selector : MonoBehaviour {
-
-    public Material selectMat;
+    
+  /*  public Material selectMat;
 
     GameObject selector;
     Renderer rend;
@@ -20,10 +20,10 @@ public class Selector : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (isVisible)
-            selector.GetComponent<MeshRenderer>().enabled = true;
-        else
-            selector.GetComponent<MeshRenderer>().enabled = false;
+        //if (isVisible)
+            //selector.GetComponent<MeshRenderer>().enabled = true;
+        //else
+            //selector.GetComponent<MeshRenderer>().enabled = false;
 
         var hitInfo = new RaycastHit();
         
@@ -31,10 +31,13 @@ public class Selector : MonoBehaviour {
         {
             if (hitInfo.transform.gameObject.tag == "cell")
             {
+                isVisible = true;
                 // to do code
-                transform.position = hitInfo.transform.position;
-                //Debug.Log("werkt");
+                transform.position = new Vector3(hitInfo.transform.position.x, 30, hitInfo.transform.position.z);
+                Debug.Log(transform.position);
             }
+
+            isVisible = false;
         }
-    }
+     */
 }
