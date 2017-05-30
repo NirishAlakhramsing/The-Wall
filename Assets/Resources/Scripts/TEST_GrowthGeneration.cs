@@ -6,7 +6,14 @@ public class NewBehaviourScript : MonoBehaviour {
     //double array voor 16 bij 16 opslag
 
     public int tileNumber;
-    GameObject[,] boardArray;
+    public int nrOfIterations;
+
+    [Range(0, 100)]
+    public int growthChanceGrass;
+    [Range(0, 100)]
+    public int growthChanceTree;
+
+    //GameObject[,] boardArray;
 
     private bool[] visited;
     private int[] unvisited;
@@ -16,7 +23,7 @@ public class NewBehaviourScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        boardArray = new GameObject[tileNumber, tileNumber];
+        //boardArray = new GameObject[tileNumber, tileNumber];
         
     }
 	
@@ -25,7 +32,8 @@ public class NewBehaviourScript : MonoBehaviour {
 	
 	}
 
-    public void GatherUnvisited()
+    //1 Look for all cells that have not been visited before the neigbourh method activates
+    public void GatherCells()
     {
         /*for (int i = 0; i < getGridScript.generatedGrid.Length; i++)
         {
@@ -43,8 +51,8 @@ public class NewBehaviourScript : MonoBehaviour {
         }
     }
 
-    //Look in array for the first seed ( cell from where there the growth should start )
-    public void FindSeedCell()
+    //2 - Look in array for a seeds to grow
+    public void GrowSeedCell()
     {
         for (int i = 0; i < getGridScript.generatedGrid.GetLength(0); i++)
         {//ROW
@@ -55,7 +63,7 @@ public class NewBehaviourScript : MonoBehaviour {
                 {
                     case 0: //do nothing atm
                         break;
-                    case 1: //check if visited
+                    case 1: //Grass - check if visited
 
                             //if not - start neigbour generations
                         if ( !visited[i + j])
@@ -79,12 +87,31 @@ public class NewBehaviourScript : MonoBehaviour {
         }
     }
 
+    //3 - Generate the new neigbours with new seed cells
     public void NeighbourPopulating()
     {
+        var iteration = nrOfIterations;
+        var chanceGrass = growthChanceGrass;
+        var chacneTree = growthChanceTree;
+
         // Chance randomizer for seed to grow in neighbour cell
+        for (int i = 0; i < neighbour.Length; i++) {
         
+            //Tree
+            if ((int)Random.Range(0, 100) > growthChanceTree)
+            {
+                //change neighbour cell to tree cell (new seed)
+
+            }
+
+            //Grass
+
+            
+        }
+
     }
 
+    //4 -   Gather the current populatuble neighbours of the seed cell
     public void Gather(int seed)
     {
         //right
