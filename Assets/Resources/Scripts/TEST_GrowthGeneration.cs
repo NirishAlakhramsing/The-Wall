@@ -32,23 +32,27 @@ public class NewBehaviourScript : MonoBehaviour {
 	
 	}
 
-    //1 Look for all cells that have not been visited before the neigbourh method activates
+    //1 Look for all cells that have not been visited before the neigbourh gathering method activates
     public void GatherCells()
     {
-        /*for (int i = 0; i < getGridScript.generatedGrid.Length; i++)
-        {
-            Debug.Log("Cell " + i + " has been placed in univisited array at place " + unvisited[i]);
-        }
-        */
 
+        //Gather data from all grid cells
         for (int i = 0; i < getGridScript.generatedGrid.GetLength(0); i++)
         {//ROW
             for (int j = 0; j < getGridScript.generatedGrid.GetLength(1); j++)
             {//COLLUM
+
+                //Set all cells to unvisited
                 unvisited[i+j] = i + j;
-                Debug.Log("Cell " + i + " has been placed in univisited array at place " + unvisited[i]);
+                Debug.Log("Cell " + i+j + " has been placed in univisited array at place " + unvisited[i]);
+
+                //Set all already occupied cells
+
             }
         }
+
+        //Gather the already placed seeds
+
     }
 
     //2 - Look in array for a seeds to grow
@@ -64,15 +68,18 @@ public class NewBehaviourScript : MonoBehaviour {
                     case 0: //do nothing atm
                         break;
                     case 1: //Grass - check if visited
-
+                           
                             //if not - start neigbour generations
                         if ( !visited[i + j])
                         {
                             Gather(i+j);
-                            NeighbourPopulating();
+                            PopulateNeigbbours();
+                        } else
+                        {
+                            Debug.Log("Cell" + visited[i+j] + "has already been visited and calculated");
                         }
 
-                        //if visited go to next cell
+                        
                         break;
                     case 2:
                         //do nothing atm
@@ -88,7 +95,7 @@ public class NewBehaviourScript : MonoBehaviour {
     }
 
     //3 - Generate the new neigbours with new seed cells
-    public void NeighbourPopulating()
+    public void PopulateNeigbbours()
     {
         var iteration = nrOfIterations;
         var chanceGrass = growthChanceGrass;
@@ -105,8 +112,12 @@ public class NewBehaviourScript : MonoBehaviour {
             }
 
             //Grass
+            if ((int)Random.Range(0, 100) > growthChanceGrass)
+            {
+                //change neighbour cell to tree cell (new seed)
 
-            
+            }
+
         }
 
     }
