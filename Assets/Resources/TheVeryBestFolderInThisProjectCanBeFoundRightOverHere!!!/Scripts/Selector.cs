@@ -32,14 +32,13 @@ public class Selector : MonoBehaviour {
 
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
         {
+            isVisible = true;
+
             if (hitInfo.transform.gameObject.tag == "cell")
             {
-                isVisible = true;
                 selector.transform.localScale = new Vector3(1, 1, 1);
                 selector.transform.localPosition = new Vector3(0, 0, 0);
                 rend.material = swapSelectorColor(0);
-
-                transform.position = new Vector3(hitInfo.transform.position.x, 50, hitInfo.transform.position.z);
             }
             else if (hitInfo.transform.gameObject.tag == "altGrid")
             {
@@ -47,9 +46,9 @@ public class Selector : MonoBehaviour {
                 selector.transform.localScale = new Vector3(3.7f, 1, 3.7f);
                 selector.transform.localPosition = new Vector3(15, 0, 15);
                 rend.material = swapSelectorColor(-1);
-
-                transform.position = new Vector3(hitInfo.transform.position.x, 50, hitInfo.transform.position.z);
             }
+
+            transform.position = new Vector3(hitInfo.transform.position.x, 50, hitInfo.transform.position.z);
         }
         else
             isVisible = false;
