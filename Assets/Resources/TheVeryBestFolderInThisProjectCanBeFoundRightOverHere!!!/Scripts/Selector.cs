@@ -2,16 +2,13 @@
 using System.Collections;
 
 public class Selector : MonoBehaviour {
-<<<<<<< HEAD
 
     public Material selectMatWater;
     public Material selectMatGrass;
     public Material selectMatTrees;
     public Material selectMatEmpty;
-=======
     
     public Material selectMat;
->>>>>>> development
 
     GameObject selector;
     Renderer rend;
