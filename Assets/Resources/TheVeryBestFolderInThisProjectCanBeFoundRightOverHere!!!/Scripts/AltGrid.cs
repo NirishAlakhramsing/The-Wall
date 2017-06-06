@@ -45,7 +45,11 @@ public class AltGrid : MonoBehaviour {
 
         for (int i = 0; i < ArrayParent.Length; i++)
         {
-            ArrayParent[i] = new GameObject();
+            ArrayParent[i] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            ArrayParent[i].GetComponent<MeshRenderer>().enabled = false;
+            ArrayParent[i].transform.tag = "altGrid";
+            ArrayParent[i].GetComponent<BoxCollider>().size = new Vector3(36, 1, 36);
+            ArrayParent[i].GetComponent<BoxCollider>().center = new Vector3(15, 0, 15);
             ArrayParent[i].transform.parent = transform;
             ArrayParent[i].name = "ArrayParent" + i;
         }
