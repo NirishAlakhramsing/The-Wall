@@ -78,7 +78,7 @@ public class TEST_GrowthGeneration : MonoBehaviour {
                             //if not visited - start neigbour generations
                         if (unvisited[i,j] == 0)
                         {
-                            Debug.Log("cell" + i+j+ " has not been visited , commence growth");
+                            Debug.Log("cell" + i+ "," +j+ " has not been visited , commence growth");
 
                             //GatherNeighbours(i, j);
                             //PopulateNeighbours();
