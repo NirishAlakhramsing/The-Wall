@@ -32,7 +32,7 @@ public class Grid : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
 
         for (int i = 0; i < generatedGrid.GetLength(0); i++)
@@ -78,7 +78,7 @@ public class Grid : MonoBehaviour
                 grid[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 grid[i, j].transform.position = parent.position + new Vector3(i * size, this.transform.position.y, j * size);
                 //boardArray[i, j] = Instantiate(tile, new Vector3(j * tileSize, 0, i * tileSize), Quaternion.identity) as GameObject;
-                grid[i, j].name = "cell" + i + j;
+                grid[i, j].name = "cell" + i.ToString("00") + j.ToString("00");
                 grid[i, j].tag = "cell";
                 grid[i, j].transform.parent = parent;
                 grid[i, j].transform.localScale = new Vector3(0.1f * size, 1, 0.1f * size);
@@ -105,4 +105,43 @@ public class Grid : MonoBehaviour
 
         return grid;
     }
+
+    public void setCellColor(string name, int color)
+    {
+        int numberX = 0;
+        int.TryParse(name.Substring(4, 2), out numberX);
+
+        int numberY = 0;
+        int.TryParse(name.Substring(name.Length - 2), out numberY);
+
+        generatedGrid[numberX, numberY] = color;
+
+        Debug.Log(generatedGrid[numberX, numberY]);
+    }
+
+    /*public int[,] GetGeneratedGrid()
+    {
+        int[,] grid = new int[tileNumber, tileNumber];
+
+        for (int i = 0; i < grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < grid.GetLength(0); j++)
+            {
+                
+            }
+        }
+
+        return grid;
+    }*/
+
+    /*void Update()
+    {
+        var cell = "cell1022";
+        int number = 0;
+
+        int.TryParse(cell.Substring(4, 2), out number);
+        Debug.Log(number);
+        Debug.Log(cell.Substring(cell.Length-2));
+        //Debug.Log(boardArray[0, 0].transform.GetComponent<Renderer>().material);
+    }*/
 }

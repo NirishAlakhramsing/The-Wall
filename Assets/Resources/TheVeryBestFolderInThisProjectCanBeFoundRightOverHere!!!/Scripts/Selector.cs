@@ -7,8 +7,6 @@ public class Selector : MonoBehaviour {
     public Material selectMatGrass;
     public Material selectMatTrees;
     public Material selectMatEmpty;
-    
-    public Material selectMat;
 
     GameObject selector;
     Renderer rend;
@@ -68,7 +66,7 @@ public class Selector : MonoBehaviour {
             cellTransform = null;
         }
 
-        colorize(cellTransform);
+        if(cellTransform != null)colorize(cellTransform);
     }
 
     private Material swapSelectorColor(int selColor)
@@ -77,13 +75,13 @@ public class Selector : MonoBehaviour {
 
         switch (selColor)
         {
-            case 2:
+            case 0:
                 mat = selectMatWater;
                 break;
             case 1:
                 mat = selectMatGrass;
                 break;
-            case 0:
+            case 2:
                 mat = selectMatTrees;
                 break;
             default:
@@ -96,7 +94,7 @@ public class Selector : MonoBehaviour {
 
     public void treeButtonPressed() //mandy
     {
-        color = 0;
+        color = 2;
     }
 
     public void grassButtonPressed() //mandy
@@ -106,34 +104,38 @@ public class Selector : MonoBehaviour {
 
     public void waterButtonPressed() //mandy
     {
-        color = 2;
+        color = 0;
     }
 
     void colorize(Transform cell) //mandy
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && cell != null)
         {
-            //Debug.Log("works " + cell.GetComponent<Renderer>().material);
             switch (color)
             {
                 case 0:
-                    cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().trees;
+                    cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().water;
                     break;
                 case 1:
                     cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().grass;
                     break;
                 case 2:
-                    cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().water;
+                    cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().trees;
                     break;
                 default:
                     cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().empty;
                     break;
             }
+
+            gridObject.GetComponent<Grid>().setCellColor(cell.name, color);
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(1) && cell != null)
         {
             cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().empty;
+
+            gridObject.GetComponent<Grid>().setCellColor(cell.name, -1);
         }
 
+        //gridObject.GetComponent<Grid>().setCellColor(cell.name, color); // set new cell color on the correct cell in the 2D grid
     }
 }
