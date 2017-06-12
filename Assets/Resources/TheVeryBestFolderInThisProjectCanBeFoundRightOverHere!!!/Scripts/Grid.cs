@@ -48,15 +48,17 @@ public class Grid : MonoBehaviour
 
     public void newGeneration()
     {
-        tempRandom();
+        //tempRandom();
+        generatedGrid = transform.GetComponent<GenerateGrid>().randomGridGen(generatedGrid);
+
         foreach (Transform child in transform)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
         boardArray = generateGrid(tileSize, generatedGrid, transform);
     }
 
-    void tempRandom()
+    /*void tempRandom()
     {
         for (int i = 0; i < generatedGrid.GetLength(0); i++)
         {
@@ -65,7 +67,7 @@ public class Grid : MonoBehaviour
                 generatedGrid[i, j] = (int)Random.Range(0, 3);
             }
         }
-    }
+    }*/
 
     public GameObject[,] generateGrid(int size, int[,] genGrid, Transform parent)
     {
@@ -115,8 +117,6 @@ public class Grid : MonoBehaviour
         int.TryParse(name.Substring(name.Length - 2), out numberY);
 
         generatedGrid[numberX, numberY] = color;
-
-        Debug.Log(generatedGrid[numberX, numberY]);
     }
 
     /*public int[,] GetGeneratedGrid()
