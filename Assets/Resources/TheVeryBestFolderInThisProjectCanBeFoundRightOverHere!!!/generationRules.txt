@@ -1,0 +1,22 @@
+random generation rules:
+- leave at least xx% with empty cells
+- leave the wall area empty
+- make sure theres always an empty area for resources on the south side (bottom for 2D field) of the wall
+- make sure theres always an empty path area from the north side of the field to the wall (top for 2D field)
+- should give a warning popup about or somehow keep the previously changed cells?
+
+scramble rules:
+- allocate all the patches of the same type of cells
+- relocate these properly, however they cannot break any of the rules from the random generation
+- this tool does not generate new cells, just relocates them
+- multiple patches cannot be placed on top of eachother, but they can be connected next to each other
+- single cells will be collected and randomly placed after the main patches have been relocated to different places
+
+grow rules:
+- always grow towards the nearest empty or differently colored cell.
+- if the cell is the same color it will grow towards a different direction or from one of the connected cell if all connecting cells are the same.
+- the growth cell including all the other same colored cells will be added to the already visited cells
+- if a cell is surrounded by visited cells, it will change color to the most commonly type of cell connected to that cell instead
+- empty cells cannot grow
+- certain empty cells cannot be grown towards (wall, wall path and collect items area)
+- certain filled cells cannot be grown towards even if no other cell will be a viable grow direction (other bigger patches, exception to patches that are smaller)
