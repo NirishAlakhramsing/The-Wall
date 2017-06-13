@@ -69,13 +69,13 @@ public class Grid : MonoBehaviour
 
     public void applyGrowthGeneration(int dimOne, int dimTwo, int type)
     {
-        //boardArray = generateGrid(tileSize, generatedGrid, transform);
-        //Debug.Log("Cell = " + dimOne +","+dimTwo +" are new");
 
         switch (type)
         {
             case 0:
-                //rend.material = water;
+                rend = boardArray[dimOne, dimTwo].GetComponent<Renderer>();
+                rend.material = water;
+                generatedGrid[dimOne, dimTwo] = 0;
                 break;
             case 1:
                 rend = boardArray[dimOne, dimTwo].GetComponent<Renderer>();
@@ -83,7 +83,9 @@ public class Grid : MonoBehaviour
                 generatedGrid[dimOne, dimTwo] = 1;
                 break;
             case 2:
-                //rend.material = trees;
+                rend = boardArray[dimOne, dimTwo].GetComponent<Renderer>();
+                rend.material = trees;
+                generatedGrid[dimOne, dimTwo] = 2;
                 break;
             default:
                 //rend.material = empty;

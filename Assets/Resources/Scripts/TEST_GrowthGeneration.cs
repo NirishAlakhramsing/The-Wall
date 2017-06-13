@@ -10,14 +10,14 @@ public class TEST_GrowthGeneration : MonoBehaviour {
     private int counter = 0;
 
     [Range(0, 100)]
+    public int waterChanceWater;
+    [Range(0, 100)]
     public int growthChanceGrass;
     [Range(0, 100)]
     public int growthChanceTree;
 
-    //GameObject[,] boardArray;
-    
     private int[,] visited;
-    public int[,] unvisited;
+    private int[,] unvisited;//INFO: 0 = not visited, 1 = visited
     private int[,] neighbour;
 
     public Grid getGridScript;
@@ -33,27 +33,22 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         GatherCells();
 
     }
-	
 
-    //1 Look for all cells that have not been visited before the neigbourh gathering method activates
+    //1 Gather user input data(seeds) from the grid and get all cells ready for growth proces
     public void GatherCells()
     {
-        // 0. Gather data from all grid cells
+
         for (int i = 0; i < getGridScript.generatedGrid.GetLength(0); i++)
         {//ROW
             for (int j = 0; j < getGridScript.generatedGrid.GetLength(1); j++)
             {//COLLUM
-
-                //Set all cells to unvisited
                 unvisited[i,j] = 0;
-                neighbour[i,j] = 0;
-                //Debug.Log("Cell " + i+ "," + j + " has been placed in univisited array at place " + unvisited[i,j]); //HEAVY ON PERFORMANCE
-
+                neighbour[i,j] = -1;
             }
         }
     }
 
-    //2 - Look in array for a seeds to grow
+    //2 - Look for a seeds to grow
     public void GrowSeedCell()
     {
 
@@ -64,28 +59,44 @@ public class TEST_GrowthGeneration : MonoBehaviour {
 
                 switch (getGridScript.generatedGrid[i, j])
                 {
-                    case 0: //Water - do nothing atm
-                        break;
-
-                    case 1: //Grass - check if visited
-
-                        //if not visited - start neigbour generations
+                    case 0: //Water
+                            
                         if (unvisited[i, j] == 0)
                         {
-                            //Debug.Log("cell" + i + "," + j + " has not been visited , commence growth");
-
-                            GatherNeighbours(i, j, 1);
-                            //PopulateNeighbours();
+                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
                             SetVisitation(i, j);
-                        } else
+                        }
+                        else
                         {
-                            //Debug.Log("Cell" +i+ "," +j + " has already been visited and calculated , continue to next cell");
+                            //Cell already visited
                         }
                         break;
 
-                    case 2://Tree - do nothing atm
+                    case 1: //Grass
 
+                        if (unvisited[i, j] == 0)
+                        {
+                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
+                            SetVisitation(i, j);
+                        } else
+                        {
+                            //Cell already visited
+                        }
                         break;
+
+                    case 2://Tree
+
+                        if (unvisited[i, j] == 0)
+                        {
+                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
+                            SetVisitation(i, j);
+                        }
+                        else
+                        {
+                            //Cell already visited
+                        }
+                        break;
+
                     default:
                         //cell has not been assigned by a object type
                         break;
@@ -99,7 +110,7 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         StartCoroutine(GrowthIterator());
     }
 
-    //3 -   Gather the current populatuble neighbours of the seed cell
+    //3 -   Gather all neighbours that touch this cell
     public void GatherNeighbours(int dimOne, int dimTwo, int type)
     {
 
@@ -110,13 +121,15 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         //UpperNeighbour
         if (OutOfGridCheckDim1(dimOne, noAddition) || OutOfGridCheckDim2(dimTwo, plusOne))
         {
-            //This neigbour was out of the grid
+            //This neigbour was out of the grid or already populated
         }
         else
         {
-            PopulateNeighbours(dimOne, dimTwo + 1, type);
-        }
-        
+            if (!CellOccupation(dimOne, dimTwo, noAddition, plusOne))
+            {
+                PopulateNeighbours(dimOne, dimTwo + 1, type);
+            }  
+        }  
 
         //UpperRightNeighbour
         if (OutOfGridCheckDim1(dimOne, plusOne) || OutOfGridCheckDim2(dimTwo, plusOne))
@@ -124,9 +137,11 @@ public class TEST_GrowthGeneration : MonoBehaviour {
             //This neigbour was out of the grid
         } else
         {
-            PopulateNeighbours(dimOne + 1, dimTwo + 1, type);
+            if (!CellOccupation(dimOne, dimTwo, plusOne, plusOne))
+            {
+                PopulateNeighbours(dimOne + 1, dimTwo + 1, type);
+            }
         }
-        
 
         //RightNeighbour
         if (OutOfGridCheckDim1(dimOne, plusOne) || OutOfGridCheckDim2(dimTwo, noAddition))
@@ -135,7 +150,10 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         }
         else
         {
-            PopulateNeighbours(dimOne + 1, dimTwo, type);
+            if (!CellOccupation(dimOne, dimTwo, plusOne, noAddition))
+            {
+                PopulateNeighbours(dimOne + 1, dimTwo, type);
+            } 
         }
 
         //LowerRightNeighbour
@@ -145,18 +163,24 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         }
         else
         {
-            PopulateNeighbours(dimOne + 1, dimTwo - 1, type);
+            if (!CellOccupation(dimOne, dimTwo, plusOne, minusOne))
+            {
+                PopulateNeighbours(dimOne + 1, dimTwo - 1, type);
+            }
+            
         }
         
         //LowerNeighbour
-        //PopulateNeighbours(dimOne, dimTwo - 1, type);
         if (OutOfGridCheckDim1(dimOne, noAddition) || OutOfGridCheckDim2(dimTwo, minusOne))
         {
             //This neigbour was out of the grid
         }
         else
         {
-            PopulateNeighbours(dimOne, dimTwo - 1, type);
+            if (!CellOccupation(dimOne, dimTwo, noAddition, minusOne))
+            {
+                PopulateNeighbours(dimOne, dimTwo - 1, type);
+            } 
         }
 
         //LowerLeftNeighbour
@@ -166,7 +190,10 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         }
         else
         {
-            PopulateNeighbours(dimOne - 1, dimTwo - 1, type);
+            if (!CellOccupation(dimOne, dimTwo, minusOne, minusOne))
+            {
+                PopulateNeighbours(dimOne - 1, dimTwo - 1, type);
+            }   
         }
         
         //LeftNeighbour
@@ -175,7 +202,10 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         }
         else
         {
-            PopulateNeighbours(dimOne - 1, dimTwo, type);
+            if (!CellOccupation(dimOne, dimTwo, minusOne, noAddition))
+            {
+                PopulateNeighbours(dimOne - 1, dimTwo, type);
+            }
         }
 
         //UpperLeftNeighbour
@@ -184,15 +214,11 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         }
         else
         {
-            PopulateNeighbours(dimOne - 1, dimTwo + 1, type);
+            if (!CellOccupation(dimOne, dimTwo, minusOne, plusOne))
+            {
+                PopulateNeighbours(dimOne - 1, dimTwo + 1, type);
+            }
         }
-
-
-        //Set original seed to visited
-        //SetVisitation(dimOne, dimTwo);
-
-        //cell is already filled with a object
-        //Debug.Log("Cell is already filled with object of type " + getGridScript.generatedGrid[dimOne, dimTwo + 1]);
 
     }
 
@@ -202,19 +228,15 @@ public class TEST_GrowthGeneration : MonoBehaviour {
 
         if ((dimOne + dimOneaddition) == -1)
         {
-            //grid value is out of grid
-            //Do not populate
-            //Go to next neighbour
-            //Debug.Log("Negative cell " + (dimOne + dimOneaddition));
+            //Cell neighbour is out of grid
             outOfGrid = true;
         } else if ( (dimOne + dimOneaddition) == tileNumber)
             {
-                //Debug.Log("Over cell maximum " + (dimOne + dimOneaddition));
+                //Cell neighbour is out of grid;
             outOfGrid = true;
             }
         else
         {
-            //Debug.Log("This neighbour is INSIDE of grid Dimension One " + (dimOne + dimOneaddition));
             outOfGrid = false;
         }
 
@@ -227,16 +249,12 @@ public class TEST_GrowthGeneration : MonoBehaviour {
 
         if ( (dimTwo + dimTwoAddition) == -1)
         {
-            //grid value is out of grid
-            //Do not populate
-            //Go to next neighbour
-            //Debug.Log("This neighbour is out of grid Dimension Two " + (dimTwo + dimTwoAddition));
-            //Debug.Log("Negative cell " + (dimTwo + dimTwoAddition));
+            //Cell neighbour is out of grid
             outOfGrid = true;
         } else if ((dimTwo + dimTwoAddition) == tileNumber)
             {
-                //Debug.Log("Over cell maximum " + (dimTwo + dimTwoAddition));
-                outOfGrid = true;
+            //Cell neighbour is out of grid
+            outOfGrid = true;
             }
         else
         {
@@ -246,8 +264,20 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         return outOfGrid;
     }
 
+    public bool CellOccupation(int dimOne, int dimTwo, int additionalOne, int additionalTwo)
+    {
+        var occupied = false;
+        if (getGridScript.generatedGrid[dimOne + additionalOne, dimTwo + additionalTwo] != -1)
+        {
+            occupied = true;
+        } else
+        {
+            occupied = false;
+        }
+        return occupied;
+    }
 
-    //4 - Generate the new neigbours with new seed cells
+    //4 - Generate grass on new neigbours based on user input chances
     public void PopulateNeighbours(int dimOne, int dimTwo, int type)
     {
 
@@ -258,12 +288,9 @@ public class TEST_GrowthGeneration : MonoBehaviour {
             neighbour[dimOne, dimTwo] = type;
         }
 
-        //getGridScript.applyGrowthGeneration(dimOne, dimTwo, InitiateChance(type));
-
-        //add to new neigbours for further iterations and visitation settings.
-        //neighbour[dimOne, dimTwo] = 1;
     }
 
+    //5 - Display the new grass on the grid
     private void ColorNewNeighbours()
     {
         for (int i = 0; i < neighbour.GetLength(0); i++)
@@ -271,10 +298,22 @@ public class TEST_GrowthGeneration : MonoBehaviour {
             for (int j = 0; j < neighbour.GetLength(1); j++)
             {//COLLUM
 
-                //grass coloring
+                //Grass coloring
                 if (neighbour[i,j] == 1)
                 {
                     getGridScript.applyGrowthGeneration(i, j, 1);
+                }
+
+                //Water coloring
+                if (neighbour[i, j] == 0)
+                {
+                    getGridScript.applyGrowthGeneration(i, j, 0);
+                }
+
+                //Tree coloring
+                if (neighbour[i, j] == 2)
+                {
+                    getGridScript.applyGrowthGeneration(i, j, 2);
                 }
 
             }
@@ -283,11 +322,17 @@ public class TEST_GrowthGeneration : MonoBehaviour {
 
     private int InitiateChance(int type)
     {
-        var newType = 0;
+        var newType = -1;
+
+        //Water
+        if ((int)Random.Range(0, 100) < waterChanceWater && type == 0)
+        {
+            newType = 0;
+        }
+
         //Grass
         if ((int)Random.Range(0, 100) < growthChanceGrass && type == 1)
         {
-            //change neighbour cell to tree cell (new seed)
             newType = 1;
         }
 
