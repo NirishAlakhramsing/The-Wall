@@ -67,6 +67,31 @@ public class Grid : MonoBehaviour
         }
     }
 
+    public void applyGrowthGeneration(int dimOne, int dimTwo, int type)
+    {
+        //boardArray = generateGrid(tileSize, generatedGrid, transform);
+        //Debug.Log("Cell = " + dimOne +","+dimTwo +" are new");
+
+        switch (type)
+        {
+            case 0:
+                //rend.material = water;
+                break;
+            case 1:
+                rend = boardArray[dimOne, dimTwo].GetComponent<Renderer>();
+                rend.material = grass;
+                generatedGrid[dimOne, dimTwo] = 1;
+                break;
+            case 2:
+                //rend.material = trees;
+                break;
+            default:
+                //rend.material = empty;
+                break;
+        }
+        
+    }
+
     public GameObject[,] generateGrid(int size, int[,] genGrid, Transform parent)
     {
         GameObject[,] grid = new GameObject[tileNumber, tileNumber];
@@ -116,7 +141,7 @@ public class Grid : MonoBehaviour
 
         generatedGrid[numberX, numberY] = color;
 
-        Debug.Log(generatedGrid[numberX, numberY]);
+        //Debug.Log(generatedGrid[numberX, numberY]);
     }
 
     /*public int[,] GetGeneratedGrid()
@@ -144,4 +169,9 @@ public class Grid : MonoBehaviour
         Debug.Log(cell.Substring(cell.Length-2));
         //Debug.Log(boardArray[0, 0].transform.GetComponent<Renderer>().material);
     }*/
+
+    public int getData()
+    {
+        return tileNumber;
+    }
 }
