@@ -10,17 +10,11 @@ public class Grid : MonoBehaviour
     public Material grass;
     public Material trees;
     public Material empty;
-    /*public Texture water;
-    public Texture grass;
-    public Texture trees;
-    public Texture empty;*/
 
     Renderer rend;
 
     public int[,] generatedGrid = new int[tileNumber, tileNumber];
     GameObject[,] boardArray = new GameObject[tileNumber, tileNumber];
-
-    //public GameObject tile;
 
     // Use this for initialization
     void Start()
@@ -48,7 +42,6 @@ public class Grid : MonoBehaviour
 
     public void newGeneration()
     {
-        //tempRandom();
         generatedGrid = transform.GetComponent<GenerateGrid>().randomGridGen(generatedGrid);
 
         foreach (Transform child in transform)
@@ -106,7 +99,6 @@ public class Grid : MonoBehaviour
             {
                 grid[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 grid[i, j].transform.position = parent.position + new Vector3(i * size, this.transform.position.y, j * size);
-                //boardArray[i, j] = Instantiate(tile, new Vector3(j * tileSize, 0, i * tileSize), Quaternion.identity) as GameObject;
                 grid[i, j].name = "cell" + i.ToString("00") + j.ToString("00");
                 grid[i, j].tag = "cell";
                 grid[i, j].transform.parent = parent;
@@ -144,8 +136,6 @@ public class Grid : MonoBehaviour
         int.TryParse(name.Substring(name.Length - 2), out numberY);
 
         generatedGrid[numberX, numberY] = color;
-
-        Debug.Log(generatedGrid[numberX, numberY]);
     }
 
     /*public int[,] GetGeneratedGrid()
