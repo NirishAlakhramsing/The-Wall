@@ -22,9 +22,9 @@ public class TEST_GrowthGeneration : MonoBehaviour {
 
     public Grid getGridScript;
 
-    public bool sWater = false;
-    public bool sGrass = false;
-    public bool sTree = false;
+    private bool sWater = false;
+    private bool sGrass = false;
+    private bool sTree = false;
     private bool selectionOnly = false;
     public float hSliderValue = 0.0F;
 
@@ -386,14 +386,5 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         }
     }
 
-    void OnGUI()
-    {
-        sWater = GUI.Toggle(new Rect(10, 10, 100, 30), sWater, "DEZE");
-
-        //GUI.Button(new Rect(0, 100, 100, 20), new GUIContent("A Button", "This is the tooltip"));
-        //GUI.Label(new Rect(0, 40, 100, 40), GUI.tooltip);
-        hSliderValue = GUI.HorizontalSlider(new Rect(375, 225, 100, 30), hSliderValue, 0.0F, 100.0F);
-
-
-    }
+ 
 }
