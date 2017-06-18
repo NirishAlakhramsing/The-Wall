@@ -22,6 +22,12 @@ public class TEST_GrowthGeneration : MonoBehaviour {
 
     public Grid getGridScript;
 
+    public bool sWater = false;
+    public bool sGrass = false;
+    public bool sTree = false;
+    private bool selectionOnly = false;
+    public float hSliderValue = 0.0F;
+
     // Use this for initialization
     void Start () {
 
@@ -32,6 +38,7 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         neighbour = new int[tileNumber, tileNumber];
         GatherCells();
 
+        selectionOnly = false;
     }
 
     //1 Gather user input data(seeds) from the grid and get all cells ready for growth proces
@@ -60,8 +67,12 @@ public class TEST_GrowthGeneration : MonoBehaviour {
                 switch (getGridScript.generatedGrid[i, j])
                 {
                     case 0: //Water
-                            
-                        if (unvisited[i, j] == 0)
+                        if (sWater && unvisited[i, j] == 0)
+                        {
+                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
+                            SetVisitation(i, j);
+                        } 
+                        else if (!sWater && unvisited[i, j] == 0)
                         {
                             GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
                             SetVisitation(i, j);
@@ -73,8 +84,12 @@ public class TEST_GrowthGeneration : MonoBehaviour {
                         break;
 
                     case 1: //Grass
-
-                        if (unvisited[i, j] == 0)
+                        if (sGrass && unvisited[i, j] == 0)
+                        {
+                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
+                            SetVisitation(i, j);
+                        }
+                        else if (!sGrass && unvisited[i, j] == 0)
                         {
                             GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
                             SetVisitation(i, j);
@@ -86,7 +101,12 @@ public class TEST_GrowthGeneration : MonoBehaviour {
 
                     case 2://Tree
 
-                        if (unvisited[i, j] == 0)
+                        if (sTree && unvisited[i, j] == 0)
+                        {
+                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
+                            SetVisitation(i, j);
+                        }
+                        else if (!sTree && unvisited[i, j] == 0)
                         {
                             GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
                             SetVisitation(i, j);
@@ -364,5 +384,16 @@ public class TEST_GrowthGeneration : MonoBehaviour {
         {
             counter = 0;
         }
+    }
+
+    void OnGUI()
+    {
+        sWater = GUI.Toggle(new Rect(10, 10, 100, 30), sWater, "DEZE");
+
+        //GUI.Button(new Rect(0, 100, 100, 20), new GUIContent("A Button", "This is the tooltip"));
+        //GUI.Label(new Rect(0, 40, 100, 40), GUI.tooltip);
+        hSliderValue = GUI.HorizontalSlider(new Rect(375, 225, 100, 30), hSliderValue, 0.0F, 100.0F);
+
+
     }
 }
