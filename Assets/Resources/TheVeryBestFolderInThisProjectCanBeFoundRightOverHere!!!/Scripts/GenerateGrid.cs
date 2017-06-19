@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GenerateGrid : MonoBehaviour {
-
-    public int wallRow = 8; // the position of the wall
-
+public class GenerateGrid : MonoBehaviour
+{
     [Range(10, 100)]
     public float density = 10; // percent amount of the total field size at which the generation will fill
 
@@ -12,14 +10,21 @@ public class GenerateGrid : MonoBehaviour {
     private int[,] empty; // empty tiles that can be filled
     int remainingEmpty; // remaining to be filled tiles
 
-	// Use this for initialization
-	void Start ()
+    DNA dna; // the dna that will be used to identify the chance of what type of generations will appear
+
+    // Use this for initialization
+    void Start ()
     {
-        
+        dna = new DNA();
 	}
 
+    public void newGeneration()
+    {
+        transform.GetComponent<Grid>().setGrid(randomGridGen(transform.GetComponent<Grid>().GetGrid()));
+    }
+
     // used to reset the current empty cells
-    public void reset(int[,] grid)
+    void reset(int[,] grid)
     {
         empty = emptyCells(grid);
         addwall();
@@ -39,7 +44,11 @@ public class GenerateGrid : MonoBehaviour {
     {
         for (int i = 0; i < empty.GetLength(0); i++)
         {
-            empty[i, wallRow] = 1;
+            for (int j = 0; j < empty.GetLength(0); j++)
+            {
+                if (transform.GetComponent<GenerateWall>().getWall()[i, j] == 1)
+                    empty[i, j] = 1;
+            }
         }
     }
 
@@ -61,7 +70,7 @@ public class GenerateGrid : MonoBehaviour {
     }
 	
     // fill random empty cells with a new color
-	public int[,] randomGridGen (int[,] grid)
+	int[,] randomGridGen (int[,] grid)
     {
         reset(grid);
 
@@ -75,7 +84,20 @@ public class GenerateGrid : MonoBehaviour {
             if (empty[x, y] != 1)
             {
                 remainingEmpty--;
-                grid[x, y] = (int)Random.Range(0, 3);
+                var rand = (int)Random.Range(1, 4);
+
+                int[] check = checkNeighbours(x, y, grid);
+                if (rand <= check[0] && check[1] > -1)
+                    grid[x, y] = check[1];
+                else
+                    grid[x, y] = dna.getDNASample(x, y);
+
+                /*
+                instead of using a random integer, there will be a dna based system that defines the chances of a specific type of cell to spawn.
+                besides that, the cells next to existing cells will need to have a higher chance of being the same type as its neighbour.
+                also in consecutive generations, the system should more likely spawn cells next to existing ones rather than on random locations.
+                */
+
                 empty[x, y] = 1;
             }
             else i--;
@@ -85,4 +107,40 @@ public class GenerateGrid : MonoBehaviour {
 
         return grid;
 	}
+
+    int[] checkNeighbours(int x, int y, int[,] grid)
+    {
+        // method for finding adjecent cells of the same color
+        int number = 0;
+        int color = 0;
+
+        int[] type = new int[3];
+
+        if (x - 1 < tileNumber && x - 1 > -1 && y < tileNumber && y > -1)
+            if (grid[x - 1, y] > -1)
+                type[grid[x - 1, y]]++;
+
+        if (x + 1 < tileNumber && x + 1 > -1 && y < tileNumber && y > -1)
+            if (grid[x + 1, y] > -1)
+                type[grid[x + 1, y]]++;
+
+        if (x < tileNumber && x > -1 && y - 1 < tileNumber && y - 1 > -1)
+            if (grid[x, y - 1] > -1)
+                type[grid[x, y - 1]]++;
+
+        if (x < tileNumber && x > -1 && y + 1 < tileNumber && y + 1 > -1)
+            if (grid[x, y + 1] > -1)
+                type[grid[x, y + 1]]++;
+
+        for (int i = 0; i < type.Length; i++)
+        {
+            if (type[i] > number)
+            {
+                number = type[i];
+                color = i;
+            }
+        }
+
+        return new int[2] { number, color };
+    }
 }

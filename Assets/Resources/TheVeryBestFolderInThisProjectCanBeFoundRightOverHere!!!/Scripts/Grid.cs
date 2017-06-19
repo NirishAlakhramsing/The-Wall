@@ -40,17 +40,6 @@ public class Grid : MonoBehaviour
         boardArray = generateGrid(tileSize, generatedGrid, transform);
     }
 
-    public void newGeneration()
-    {
-        generatedGrid = transform.GetComponent<GenerateGrid>().randomGridGen(generatedGrid);
-
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
-        boardArray = generateGrid(tileSize, generatedGrid, transform);
-    }
-
     public void applyGrowthGeneration(int dimOne, int dimTwo, int type)
     {
 
