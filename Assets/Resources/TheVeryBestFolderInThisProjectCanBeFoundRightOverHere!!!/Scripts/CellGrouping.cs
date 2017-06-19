@@ -69,7 +69,7 @@ public class CellGrouping : MonoBehaviour
         {
             temp = false; // dont use this
 
-            createGroups(transform.GetComponent<Grid>().generatedGrid); // this should always be called before you can use the groups
+            createGroups(transform.GetComponent<Grid>().GetGrid()); // this should always be called before you can use the groups
 
             int i = 0;
             do
@@ -163,15 +163,28 @@ public class CellGrouping : MonoBehaviour
         cellGroup.Add(new Group(cellAmount, color, currentGroup, id));
 
         // sort the groups on size
-        sortGroups();
+        //sortGroups();
     }
 
-    private void sortGroups() // 3
+    /*private void sortGroups() // 3
     {
         // sort all groups based on groupsize
-        foreach (Group group in cellGroup)
+
+        int i = 0;
+        if (cellGroup[i] == null)
         {
-            // do something
+            // do nothing
         }
-    }
+        else
+        {
+            if (cellGroup[cellGroup.Count].amount > cellGroup[cellGroup.Count-i].amount)
+            {
+                i++;
+            }
+            else
+            {
+
+            }
+        }
+    }*/
 }
