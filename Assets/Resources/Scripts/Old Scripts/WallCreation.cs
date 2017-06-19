@@ -5,7 +5,6 @@ public class WallCreation : MonoBehaviour {
 
 	public GameObject[] prefabCube;
 
-	public GameObject addOre;
 	UIManagerScript uiscript;
 
 	public bool blockT1, blockT2, gateT1;
@@ -44,4 +43,5 @@ public class WallCreation : MonoBehaviour {
 			gateT1 = false;
 		}
 	}
+
 }
