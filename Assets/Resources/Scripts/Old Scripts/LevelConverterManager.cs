@@ -7,8 +7,11 @@ public class LevelConverterManager : MonoBehaviour {
 
     //Grab data from the level editor
     private int[,] readyGrid;
-
+    public float waitTime;
     public Grid getGridScript;
+
+    public int tilezise;
+    
 
     void Awake()
     {
@@ -17,7 +20,8 @@ public class LevelConverterManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        
+        getGridScript = GameObject.Find("Grid").GetComponent<Grid>();
+
         //Fill the list with empty objects to prevent errors
         readyGrid = new int[getGridScript.getData(), getGridScript.getData()];
 
@@ -30,72 +34,55 @@ public class LevelConverterManager : MonoBehaviour {
         }
     }
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Update()
+    {
+
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            foreach (Transform child in transform)
+            {
+                Destroy(child.gameObject);
+            }
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+            Destroy(gameObject); //temp solution destroying this object to prevent double ones --- Goal is to prevent loosing grid data and put it back in the editor tool without loosing this object.
+        }
+    }
+
 
     public void StartConversion()
     {
 
-        //1 Convert button is pushed and starts sending the 2d array data to this script.
-        for (int i = 0; i < getGridScript.GetGrid().GetLength(0); i++)
-        {//ROW
-            for (int j = 0; j < getGridScript.GetGrid().GetLength(1); j++)
-            {//COLLUM
-                readyGrid[i, j] = getGridScript.GetGrid()[i, j];
-            }
-        }
+        //1 Convert button is pushed and starts sending the generated data an other 2d array for shipment.
+        readyGrid = getGridScript.GetGrid();
 
         //2 the new game scene loads
         SceneManager.LoadScene(1, LoadSceneMode.Single);
 
         //3 start placing a grid on the level by showing all the 16x16 cells ( 256 total)
-
+        InstantiateNewGroundGrid();
 
         //4 Start converting each cell to the gameobject that it needs to be.
+        StartCoroutine(WaitLoadingTime());
+
 
         //5 Load in the manager prefabs
 
 
     }
 
-    public GameObject[,] instantiateGridData(int size, int[,] genGrid, Transform parent)
+    public void InstantiateNewGroundGrid()
     {
-        GameObject[,] gridObjects = new GameObject[getGridScript.getData(), getGridScript.getData()];
 
-        for (int i = 0; i < gridObjects.GetLength(0); i++)
-        {
-            /*for (int j = 0; j < gridObjects.GetLength(1); j++)
-            {
-                gridObjects[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                gridObjects[i, j].transform.position = parent.position + new Vector3(i * size, this.transform.position.y, j * size);
-                gridObjects[i, j].name = "cell" + i.ToString("00") + j.ToString("00");
-                gridObjects[i, j].tag = "cell";
-                gridObjects[i, j].transform.parent = parent;
-                gridObjects[i, j].transform.localScale = new Vector3(0.1f * size, 1, 0.1f * size);
-
-                rend = grid[i, j].GetComponent<Renderer>();
-
-                switch (genGrid[i, j])
-                {
-                    case 0:
-                        rend.material = water;
-                        break;
-                    case 1:
-                        rend.material = grass;
-                        break;
-                    case 2:
-                        rend.material = trees;
-                        break;
-                    default:
-                        rend.material = empty;
-                        break;
-                }
-            }*/
-        }
-
-        return gridObjects;
     }
+
+    IEnumerator WaitLoadingTime()
+    {
+        
+        yield return new WaitForSeconds(waitTime);
+        SpawnProps getSpawnScript = GameObject.Find("ShowNewGridObjects").GetComponent<SpawnProps>();
+        getSpawnScript.PlaceGridData(tilezise, readyGrid, transform);
+    }
+
+
 
 }
