@@ -45,9 +45,9 @@ public class TEST_GrowthGeneration : MonoBehaviour {
     public void GatherCells()
     {
 
-        for (int i = 0; i < getGridScript.generatedGrid.GetLength(0); i++)
+        for (int i = 0; i < getGridScript.GetGrid().GetLength(0); i++)
         {//ROW
-            for (int j = 0; j < getGridScript.generatedGrid.GetLength(1); j++)
+            for (int j = 0; j < getGridScript.GetGrid().GetLength(1); j++)
             {//COLLUM
                 unvisited[i,j] = 0;
                 neighbour[i,j] = -1;
@@ -59,12 +59,12 @@ public class TEST_GrowthGeneration : MonoBehaviour {
     public void GrowSeedCell()
     {
 
-        for (int i = 0; i < getGridScript.generatedGrid.GetLength(0); i++)
+        for (int i = 0; i < getGridScript.GetGrid().GetLength(0); i++)
         {//ROW
-            for (int j = 0; j < getGridScript.generatedGrid.GetLength(1); j++)
+            for (int j = 0; j < getGridScript.GetGrid().GetLength(1); j++)
             {//COLLUM
 
-                switch (getGridScript.generatedGrid[i, j])
+                switch (getGridScript.GetGrid()[i, j])
                 {
                     case 0: //Water
                         if (sWater && unvisited[i, j] == 0)
@@ -74,7 +74,7 @@ public class TEST_GrowthGeneration : MonoBehaviour {
                         } 
                         else if (!sWater && unvisited[i, j] == 0)
                         {
-                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
+                            GatherNeighbours(i, j, getGridScript.GetGrid()[i, j]);
                             SetVisitation(i, j);
                         }
                         else
@@ -91,7 +91,7 @@ public class TEST_GrowthGeneration : MonoBehaviour {
                         }
                         else if (!sGrass && unvisited[i, j] == 0)
                         {
-                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
+                            GatherNeighbours(i, j, getGridScript.GetGrid()[i, j]);
                             SetVisitation(i, j);
                         } else
                         {
@@ -108,7 +108,7 @@ public class TEST_GrowthGeneration : MonoBehaviour {
                         }
                         else if (!sTree && unvisited[i, j] == 0)
                         {
-                            GatherNeighbours(i, j, getGridScript.generatedGrid[i, j]);
+                            GatherNeighbours(i, j, getGridScript.GetGrid()[i, j]);
                             SetVisitation(i, j);
                         }
                         else
@@ -287,7 +287,7 @@ public class TEST_GrowthGeneration : MonoBehaviour {
     public bool CellOccupation(int dimOne, int dimTwo, int additionalOne, int additionalTwo)
     {
         var occupied = false;
-        if (getGridScript.generatedGrid[dimOne + additionalOne, dimTwo + additionalTwo] != -1)
+        if (getGridScript.GetGrid()[dimOne + additionalOne, dimTwo + additionalTwo] != -1)
         {
             occupied = true;
         } else

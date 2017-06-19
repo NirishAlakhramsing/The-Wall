@@ -10,17 +10,11 @@ public class Grid : MonoBehaviour
     public Material grass;
     public Material trees;
     public Material empty;
-    /*public Texture water;
-    public Texture grass;
-    public Texture trees;
-    public Texture empty;*/
 
     Renderer rend;
 
-    public int[,] generatedGrid = new int[tileNumber, tileNumber];
-    GameObject[,] boardArray = new GameObject[tileNumber, tileNumber];
-
-    //public GameObject tile;
+    private int[,] generatedGrid = new int[tileNumber, tileNumber];
+    private GameObject[,] boardArray = new GameObject[tileNumber, tileNumber];
 
     // Use this for initialization
     void Start()
@@ -48,7 +42,6 @@ public class Grid : MonoBehaviour
 
     public void newGeneration()
     {
-        //tempRandom();
         generatedGrid = transform.GetComponent<GenerateGrid>().randomGridGen(generatedGrid);
 
         foreach (Transform child in transform)
@@ -57,17 +50,6 @@ public class Grid : MonoBehaviour
         }
         boardArray = generateGrid(tileSize, generatedGrid, transform);
     }
-
-    /*void tempRandom()
-    {
-        for (int i = 0; i < generatedGrid.GetLength(0); i++)
-        {
-            for (int j = 0; j < generatedGrid.GetLength(0); j++)
-            {
-                generatedGrid[i, j] = (int)Random.Range(0, 3);
-            }
-        }
-    }*/
 
     public void applyGrowthGeneration(int dimOne, int dimTwo, int type)
     {
@@ -106,7 +88,6 @@ public class Grid : MonoBehaviour
             {
                 grid[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 grid[i, j].transform.position = parent.position + new Vector3(i * size, this.transform.position.y, j * size);
-                //boardArray[i, j] = Instantiate(tile, new Vector3(j * tileSize, 0, i * tileSize), Quaternion.identity) as GameObject;
                 grid[i, j].name = "cell" + i.ToString("00") + j.ToString("00");
                 grid[i, j].tag = "cell";
                 grid[i, j].transform.parent = parent;
@@ -144,35 +125,23 @@ public class Grid : MonoBehaviour
         int.TryParse(name.Substring(name.Length - 2), out numberY);
 
         generatedGrid[numberX, numberY] = color;
-
-        Debug.Log(generatedGrid[numberX, numberY]);
     }
 
-    /*public int[,] GetGeneratedGrid()
+    public int[,] GetGrid()
     {
-        int[,] grid = new int[tileNumber, tileNumber];
+        return generatedGrid;
+    }
 
-        for (int i = 0; i < grid.GetLength(0); i++)
+    public void setGrid(int[,] grid)
+    {
+        generatedGrid = grid;
+
+        foreach (Transform child in transform)
         {
-            for (int j = 0; j < grid.GetLength(0); j++)
-            {
-                
-            }
+            Destroy(child.gameObject);
         }
-
-        return grid;
-    }*/
-
-    /*void Update()
-    {
-        var cell = "cell1022";
-        int number = 0;
-
-        int.TryParse(cell.Substring(4, 2), out number);
-        Debug.Log(number);
-        Debug.Log(cell.Substring(cell.Length-2));
-        //Debug.Log(boardArray[0, 0].transform.GetComponent<Renderer>().material);
-    }*/
+        boardArray = generateGrid(tileSize, generatedGrid, transform);
+    }
 
     public int getData()
     {

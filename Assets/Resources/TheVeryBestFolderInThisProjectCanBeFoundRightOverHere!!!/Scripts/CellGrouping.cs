@@ -6,7 +6,7 @@ using System.Collections.Generic;
 // class containing group id, number of cells, cells with correct cell positions and the cell values
 public class Group // list object
 {
-    public string ID;
+    public string ID; // the group ID by found order
     public int amount; // amount of cells this group contains
     public int colorValue; // the color value of the cells in this group
     public int[] Xpos; // the X axis of the cells stored in this group
@@ -62,17 +62,22 @@ public class CellGrouping : MonoBehaviour
         reset();
     }
 
-    void Update() // this is temporary
+    void Update() // this is temporary, editor only usage
     {
+        // use this method as an usage reference for other scripts
         if (temp)
         {
-            temp = false;
-            createGroups(transform.GetComponent<Grid>().generatedGrid);
+            temp = false; // dont use this
 
-            for (int i = 0; i < cellGroup.Count; i++)
-            {
+            createGroups(transform.GetComponent<Grid>().GetGrid()); // this should always be called before you can use the groups
+
+            int i = 0;
+            do
+            { // check in a continuous loop for groups until the getnextlargestgroup returns null
                 Debug.Log("amount of cells: " + getNextLargestGroup(i).amount + " in the list id: " + getNextLargestGroup(i).ID);
-            }
+                // do something with the group here
+                i++; // update this after the usage of the getnextlargestgroup
+            } while (getNextLargestGroup(i) != null); // ends when theres no more groups remaining in the list
         }
     }
 
@@ -86,7 +91,11 @@ public class CellGrouping : MonoBehaviour
     {
         // method for calling the current largest group of cells (the last added group to the last - the given index number)
         int listNumber = cellGroup.Count;
-        return cellGroup[(listNumber - 1) - number];
+
+        if ((listNumber - 1) - number >= 0)
+            return cellGroup[(listNumber - 1) - number];
+        else
+            return null;
     }
 
     public void createGroups(int[,] grid) // start, given the current array of cells
@@ -154,15 +163,28 @@ public class CellGrouping : MonoBehaviour
         cellGroup.Add(new Group(cellAmount, color, currentGroup, id));
 
         // sort the groups on size
-        sortGroups();
+        //sortGroups();
     }
 
-    private void sortGroups() // 3
+    /*private void sortGroups() // 3
     {
         // sort all groups based on groupsize
-        foreach (Group guy in cellGroup)
+
+        int i = 0;
+        if (cellGroup[i] == null)
         {
-            // do something
+            // do nothing
         }
-    }
+        else
+        {
+            if (cellGroup[cellGroup.Count].amount > cellGroup[cellGroup.Count-i].amount)
+            {
+                i++;
+            }
+            else
+            {
+
+            }
+        }
+    }*/
 }
