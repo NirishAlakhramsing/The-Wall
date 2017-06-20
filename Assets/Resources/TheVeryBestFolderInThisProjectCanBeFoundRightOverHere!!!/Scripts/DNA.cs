@@ -6,7 +6,7 @@ dna reference:
     0 = this will always be either empty or grass
     1 = this will always be filled with either water or trees
     2 = this will have a very high chance of being grass
-    3 = this will have an equal chance of having either water, grass or trees
+    3 = this will have a high chance of being grass
     4 = this will have a very high chance of not being grass
 */
 
@@ -50,7 +50,7 @@ public class DNA
             case 2:
                 return new int[3] { 10, 80, 10 };
             case 3:
-                return new int[3] { 30, 40, 30 };
+                return new int[3] { 15, 70, 15 };
             case 4:
                 return new int[3] { 40, 20, 40 };
             default:
