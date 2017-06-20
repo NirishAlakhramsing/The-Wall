@@ -7,22 +7,26 @@ public class UI_SliderScript : MonoBehaviour {
     public GameObject waterSlider;
     public GameObject treeSlider;
     public GameObject grassSlider;
+    public GameObject densitySlider;
 
     public TEST_GrowthGeneration getGrowthScript;
+    public GenerateGrid getGenerateScript;
 
     private Text waterText;
     private Text grassText;
     private Text treeText;
+    private Text densityText;
 
     // Use this for initialization
     void Start () {
         waterText = waterSlider.GetComponent<Text>();
         grassText = grassSlider.GetComponent<Text>();
         treeText = treeSlider.GetComponent<Text>();
+        densityText = densitySlider.GetComponent<Text>();
 
         getGrowthScript = GameObject.Find("Grid").GetComponent<TEST_GrowthGeneration>();
-
-	}
+        getGenerateScript = GameObject.Find("Grid").GetComponent<GenerateGrid>();
+    }
 	
 
     public void ChangeWater(float number)
@@ -44,5 +48,12 @@ public class UI_SliderScript : MonoBehaviour {
         treeText.text = number.ToString();
 
         getGrowthScript.growthChanceTree = (int)number;
+    }
+
+    public void ChangeDensity(float number)
+    {
+        densityText.text = number.ToString();
+
+        getGenerateScript.density = (int)number;
     }
 }
