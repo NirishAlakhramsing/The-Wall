@@ -16,7 +16,7 @@ public class Scramble : MonoBehaviour
 
     void reset()
     {
-        refGrid = transform.GetComponent<Grid>().generatedGrid; 
+        refGrid = transform.GetComponent<Grid>().GetGrid(); 
 
         for (int i = 0; i < visited.GetLength(0); i++) 
         {
@@ -70,7 +70,7 @@ public class Scramble : MonoBehaviour
             }
         }
 
-        transform.GetComponent<Grid>().generatedGrid = newGrid;
+        transform.GetComponent<Grid>().setGrid(newGrid);
     }
 
    public void NewLocation(Group group)

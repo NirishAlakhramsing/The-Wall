@@ -11,8 +11,6 @@ public class ToolTips : MonoBehaviour {
     private int treeCount;
     private int cellColor = -1;
 
-    Grid grid;
-
    private int waterPercentage;
    private int treePercentage;
 
@@ -21,6 +19,7 @@ public class ToolTips : MonoBehaviour {
     }
     	
 	void Update () {
+
         //TODO colorCheck isn't being called -> should be called when change is made in the grid?
         if (waterPercentage > 30)
         {
@@ -35,12 +34,14 @@ public class ToolTips : MonoBehaviour {
 
     void colorCheck()
     {
-        for (int i = 0; i < grid.generatedGrid.GetLength(0); i++)
+        var grid = transform.GetComponent<Grid>().GetGrid();
+
+        for (int i = 0; i < grid.GetLength(0); i++)
         {
-            for (int j = 0; j < grid.generatedGrid.GetLength(1); j++)
+            for (int j = 0; j < grid.GetLength(1); j++)
             {
                 //if there is a cellColor on that position, add to the counter. 
-                cellColor = grid.generatedGrid[i, j];
+                cellColor = grid[i, j];
                 switch (cellColor)
                 {
                     case 0:
@@ -59,20 +60,20 @@ public class ToolTips : MonoBehaviour {
             }
         }
       
-        for (int i = 0; i < grid.generatedGrid.GetLength(1); i++)
+        for (int i = 0; i < grid.GetLength(1); i++)
         {
             //check if anything is placed on the path towards the wall
-            if (grid.generatedGrid[7, i] != -1)
+            if (grid[7, i] != -1)
             {
                 newText.text = "The path \n to the, \n wall may \n be obstructed";
             }
-            else if (grid.generatedGrid[8, i] != -1)
+            else if (grid[8, i] != -1)
             {
                 newText.text = "The path \n to the, \n wall may \n be obstructed";
             }
         }    
-        waterPercentage = (waterCount / grid.generatedGrid.GetLength(0)) * 100;
-        treePercentage = (waterCount / grid.generatedGrid.GetLength(0)) * 100;
+        waterPercentage = (waterCount / grid.GetLength(0)) * 100;
+        treePercentage = (waterCount / grid.GetLength(0)) * 100;
     }
 }
 
