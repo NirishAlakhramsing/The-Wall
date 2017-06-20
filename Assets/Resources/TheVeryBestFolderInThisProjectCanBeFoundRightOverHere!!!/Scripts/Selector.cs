@@ -109,31 +109,37 @@ public class Selector : MonoBehaviour {
 
     void colorize(Transform cell) //mandy
     {
+        var grid = gridObject.GetComponent<Grid>();
+
         if (Input.GetMouseButtonDown(0) && cell != null)
         {
-            switch (color)
+            if (grid.setCellColor(cell.name, color))
             {
-                case 0:
-                    cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().water;
-                    break;
-                case 1:
-                    cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().grass;
-                    break;
-                case 2:
-                    cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().trees;
-                    break;
-                default:
-                    cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().empty;
-                    break;
+                switch (color)
+                {
+                    case 0:
+                        cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().water;
+                        break;
+                    case 1:
+                        cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().grass;
+                        break;
+                    case 2:
+                        cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().trees;
+                        break;
+                    default:
+                        cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().empty;
+                        break;
+                }
             }
 
-            gridObject.GetComponent<Grid>().setCellColor(cell.name, color);
+            //grid.setCellColor(cell.name, color);
         }
         else if (Input.GetMouseButtonDown(1) && cell != null)
         {
-            cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().empty;
-
-            gridObject.GetComponent<Grid>().setCellColor(cell.name, -1);
+            if (grid.setCellColor(cell.name, -1))
+            {
+                cell.GetComponent<Renderer>().material = gridObject.GetComponent<Grid>().empty;
+            }
         }
 
         //gridObject.GetComponent<Grid>().setCellColor(cell.name, color); // set new cell color on the correct cell in the 2D grid

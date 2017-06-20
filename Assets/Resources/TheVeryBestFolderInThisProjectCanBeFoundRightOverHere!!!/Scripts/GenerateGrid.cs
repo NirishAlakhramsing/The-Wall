@@ -117,19 +117,19 @@ public class GenerateGrid : MonoBehaviour
         int[] type = new int[3];
 
         if (x - 1 < tileNumber && x - 1 > -1 && y < tileNumber && y > -1)
-            if (grid[x - 1, y] > -1)
+            if (grid[x - 1, y] > -1 && grid[x - 1, y] < 3)
                 type[grid[x - 1, y]]++;
 
         if (x + 1 < tileNumber && x + 1 > -1 && y < tileNumber && y > -1)
-            if (grid[x + 1, y] > -1)
+            if (grid[x + 1, y] > -1 && grid[x + 1, y] < 3)
                 type[grid[x + 1, y]]++;
 
         if (x < tileNumber && x > -1 && y - 1 < tileNumber && y - 1 > -1)
-            if (grid[x, y - 1] > -1)
+            if (grid[x, y - 1] > -1 && grid[x, y - 1] < 3)
                 type[grid[x, y - 1]]++;
 
         if (x < tileNumber && x > -1 && y + 1 < tileNumber && y + 1 > -1)
-            if (grid[x, y + 1] > -1)
+            if (grid[x, y + 1] > -1 && grid[x, y + 1] < 3)
                 type[grid[x, y + 1]]++;
 
         for (int i = 0; i < type.Length; i++)

@@ -9,6 +9,7 @@ public class Grid : MonoBehaviour
     public Material water;
     public Material grass;
     public Material trees;
+    public Material wall;
     public Material empty;
 
     Renderer rend;
@@ -37,7 +38,8 @@ public class Grid : MonoBehaviour
             }
         }
 
-        boardArray = generateGrid(tileSize, generatedGrid, transform);
+        //boardArray = generateGrid(tileSize, generatedGrid, transform);
+        setGrid(generatedGrid);
     }
 
     public void applyGrowthGeneration(int dimOne, int dimTwo, int type)
@@ -95,6 +97,9 @@ public class Grid : MonoBehaviour
                     case 2:
                         rend.material = trees;
                         break;
+                    case 3:
+                        rend.material = wall;
+                        break;
                     default:
                         rend.material = empty;
                         break;
@@ -105,7 +110,20 @@ public class Grid : MonoBehaviour
         return grid;
     }
 
-    public void setCellColor(string name, int color)
+    void createWall()
+    {
+        var wall = transform.GetComponent<GenerateWall>().getWall();
+
+        for (int i = 0; i < wall.GetLength(0); i++)
+        {
+            for (int j = 0; j < wall.GetLength(1); j++)
+            {
+                if (wall[i, j] == 1) generatedGrid[i, j] = 3;
+            }
+        }
+    }
+
+    public bool setCellColor(string name, int color)
     {
         int numberX = 0;
         int.TryParse(name.Substring(4, 2), out numberX);
@@ -113,7 +131,13 @@ public class Grid : MonoBehaviour
         int numberY = 0;
         int.TryParse(name.Substring(name.Length - 2), out numberY);
 
-        generatedGrid[numberX, numberY] = color;
+        if (generatedGrid[numberX, numberY] != 3)
+        {
+            generatedGrid[numberX, numberY] = color;
+            return true;
+        }
+        else
+            return false;
     }
 
     public int[,] GetGrid()
@@ -124,6 +148,7 @@ public class Grid : MonoBehaviour
     public void setGrid(int[,] grid)
     {
         generatedGrid = grid;
+        createWall();
 
         foreach (Transform child in transform)
         {
