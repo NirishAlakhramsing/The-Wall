@@ -40,7 +40,7 @@ public class AltGrid : MonoBehaviour {
 
         foreach (Transform child in transform)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
 
         for (int i = 0; i < ArrayParent.Length; i++)

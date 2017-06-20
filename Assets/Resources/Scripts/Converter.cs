@@ -5,7 +5,8 @@ using System.Collections;
 
 public class Converter : MonoBehaviour {
 
-    //Grid data from the generatorscript
+    //Grid data from the managerScript
+    private int[,] generatedData;
     private GameObject[] groundLayer;
     private int arraySize = 16; //This data needs to be fetched from the future script which generates the data.
 
@@ -16,7 +17,7 @@ public class Converter : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-	
+
 	}
 	
 	// Update is called once per frame

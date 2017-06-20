@@ -17,7 +17,7 @@ public class EnemyScript : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		transform.Translate (Vector3.right * speed * Time.deltaTime);
+		transform.Translate (Vector3.forward * speed * Time.deltaTime);
 	}
 
 	void OnCollisionEnter(Collision col){

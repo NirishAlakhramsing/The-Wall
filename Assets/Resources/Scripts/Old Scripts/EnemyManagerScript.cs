@@ -23,8 +23,10 @@ public class EnemyManagerScript : MonoBehaviour {
 
 		randSpawnPosition = transform.position;
 		
-		enemyProximityMin = new Vector3(-40f, 0.0f, 2.5f);
-		enemyProximityMax = new Vector3 (-40f, 0.0f, -22.5f);
+		enemyProximityMin = GameObject.Find("RedCornerLeft").transform.position;
+        enemyProximityMax = GameObject.Find("RedCornerRight").transform.position; ;
+
+        
 	}
 	
 	// Update is called once per frame
@@ -42,6 +44,7 @@ public class EnemyManagerScript : MonoBehaviour {
 	}
 
 	IEnumerator SpawnWave(){
+
 		for (int i = 0; i < 5; i++) {
 			yield return new WaitForSeconds(spawnTime);
 
