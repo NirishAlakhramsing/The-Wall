@@ -84,7 +84,7 @@ public class GenerateGrid : MonoBehaviour
             if (empty[x, y] != 1)
             {
                 remainingEmpty--;
-                var rand = (int)Random.Range(1, 4);
+                var rand = (int)Random.Range(1, 3);
 
                 int[] check = checkNeighbours(x, y, grid);
                 if (rand <= check[0] && check[1] > -1)
